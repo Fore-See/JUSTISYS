@@ -5,12 +5,12 @@ from bs4 import BeautifulSoup
 
 #------------------------------
 #輸入你想要的號碼，也就是要抓得那個號碼
-start_from_no = 552
+start_from_no = 65
 times = start_from_no/20
 twenty_list = start_from_no%20
 
 #輸入第二層的cookie
-origin_cookie='ASP.NET_SessionId=xq3yfxucb122zjy2in5qunr0; y=p=ga6YQzTxtX4nbb%2fpDcqvILg2sSYKfSTHsTT6K2g%2bn2cpL5jR%2fdNhSIdktQsnj7Y8; lawbank=16d61bcec6ff49c9981f7d4b3ede3876-33; _ga=GA1.3.1224627297.1434421447; _gat=1; JubFrm-pagebox=%5EcourtFullName%3DPCDV%60%5Ekw%3D%E8%BB%8A%5Ejcatagory%3D2%5Eissimple%3D-1%5Ejt%3D%E6%90%8D%E5%AE%B3%E8%B3%A0%E5%84%9F; x=j=yUm4L9fKJqyv+bvUjQeEuHlX2Uk1M6ZY+srNvIy39vuzWoh6eGOtto71u8OudzDz0CrH2GdHmjzEw0HcygOQAKKol52OCpWqcN/hWtAXH5wtK7YHkY+mqVnBI8nlomnlQ5AZovZs+0FOApcFFCI81Twziync+0q9lbAbc/AAMfDVKeUWCo75SIj6ZL4pjW1D2c1/x2pbv8XvUxO8jfmyFdlmLU3cFLkmTCT92LgODLdHWBY9RNmpc0czOtRWt0ci3B8iN3oB4mKKPeVozMR8R1Ds7Ez/RKcatvJjV8NRR8ac1qZzHxOqTpzq3z2qUE6E'
+origin_cookie='ASP.NET_SessionId=0z1wsl55ao4pbifpuecdn255; lawbank=16df6c4cd8fe4b58ab3c8ca977f75c49-33; _ga=GA1.3.329735530.1434956986; _gat=1; JubFrm-pagebox=%5EcourtFullName%3DKMDV%60%5Ekw%3D%E8%BB%8A%5Ejcatagory%3D2%5Eissimple%3D-1%5Ejt%3D%E6%90%8D%E5%AE%B3%E8%B3%A0%E5%84%9F; x=j=KQ8PUNQkVDeVi1NA/IaHRM6ZF2IGUwF37WmqRzoiGo0lIyIpBoWGQHCA1pNHsOg/oxUC0PW5tbl0fVWAZM2kS/AJXQkYNbcyyDClGcrAEm5/BihyfO3X5ZK0LrvFe0z0FxZACoT4Er7ZiOotFQZZnzdWNNnv01tHLLIO1fqnhkilIC8sKrgyfV4wDWZihaY6L5bZjzFeX5A+g856uaKF57rkN7+7u58k5Ncsqzz6dJ8qJ/n2PfwMDvmRAB9gG/ys4eko1FfLgoo9piF/VZ6vKOa01genyil30Z3Da7Url9xs54hclIiWhcsiWP1nPnYI'
 import string
 if origin_cookie.find('y=p=') != -1:
     pos_yp = origin_cookie.split('y=p=')
@@ -109,13 +109,10 @@ save_name = string.join(save[2:5],'_')
 filename_list[fl]=(place+'_'+save_name+'.txt').decode('utf-8')
 fl+=1
 
+content = soup.select('.Table-List')[0].text
+with open('project\%s' %(filename_list[fl-1]),'w') as f:#save-------------------------diraction
+	f.write(content.encode('utf-8'))
 
-fid=open('project\%s' %(filename_list[fl-1]),'w')#save-------------------------diraction
-pre_len = len(soup.select('pre'))
-for i in range(0,pre_len):
-    content = soup.select('pre')[i].text.encode('utf-8')
-    fid.write(content+'\n')
-fid.close()
 
 #try to catch the rest of files
 import time
@@ -141,14 +138,11 @@ try:
         save_dir = save[1]
         filename_list[fl]=(place+'_'+save_name+'.txt').decode('utf-8')
         fl+=1
+		
+        content = soup.select('.Table-List')[0].text
+        with open('project\%s'%(filename_list[fl-1]),'w') as f:#---------------------------diraction
+			f.write(content.encode('utf-8'))
         
-        fid=open('project\%s'%(filename_list[fl-1]),'w')#---------------------------diraction
-
-        pre_len = len(soup.select('pre'))
-        for pl in range(0,pre_len):
-            content = soup.select('pre')[pl].text.encode('utf-8')
-            fid.write(content+'\n')
-        fid.close()
         if i%100==0:
             print i,'-ok'
         time.sleep(1)
