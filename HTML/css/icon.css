@@ -3,7 +3,7 @@
   pointer-events: fill;
 }
 #Capa_1:hover {
-  fill: #09f;
+  fill: red;
 }
 
 #Capa_1: onclick {
@@ -11,9 +11,9 @@
 }
 
 /*#Capa_1:active {
-  background-color: yellow;	
-}*/
-
+  background-color: #fe7f00;	
+}
+*/
 /*Turtle*/
 /*#Capa_1 {
   pointer-events: fill;
