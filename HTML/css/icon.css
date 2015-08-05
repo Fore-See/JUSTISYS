@@ -1,9 +1,42 @@
+/*Fiona*/
 #Capa_1 {
   pointer-events: fill;
 }
 #Capa_1:hover {
-  fill: #09f;
+  fill: red;
 }
+
+#Capa_1: onclick {
+   background: #09f;
+}
+
+/*#Capa_1:active {
+  background-color: #fe7f00;	
+}
+*/
+/*Turtle*/
+/*#Capa_1 {
+  pointer-events: fill;
+}
+#Capa_1:hover {
+  fill: #09f;
+  -webkit-animation-name: change;
+  -webkit-animation-duration: 3s;
+  animation-name: change;
+  animation-duration: 3s;
+
+}
+
+  @-webkit-keyframes change {
+     from {fill: #ffaac4;}
+     to {fill: #09f;}
+  }
+
+  @keyframes change {
+     from {fill: #ffaac4;}
+     to {fill: #09f;}
+  }*/
+
 
 /*#path3635 {
   pointer-events: fill;
