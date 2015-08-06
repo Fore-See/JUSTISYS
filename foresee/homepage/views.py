@@ -164,6 +164,6 @@ def show_summary(request, num):
 	# return JsonResponse(queryset, safe=False)
 	return JsonResponse(dict(Verdict=list(queryset)))
 
-# def full_content(request):
-
-# 	return render(request, 'verdict.html')
+def full_content(request, num):
+	queryset = Attribute.objects.filter(judg_num = int(num)).values()
+	return render(request, 'verdict.html', dict(Verdict=list(queryset)))

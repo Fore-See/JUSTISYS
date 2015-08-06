@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'^result/', views.result, name='result'),
     url(r'^create_post/$', views.create_post),
     url(r'^form/show_summary/([0-9]+)$', views.show_summary),
-    # url(r'^verdict/([0-9]+)$', views.full_content),
+    url(r'^verdict/([0-9]+)$', views.full_content),
 ]
