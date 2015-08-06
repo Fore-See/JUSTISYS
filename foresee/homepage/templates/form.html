@@ -1,0 +1,60 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>form</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- // <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> -->
+	<link rel="stylesheet" href="{% static "css/main.css" %}">
+</head>
+<body>
+	<h1>JUSTISYS</h1>
+	<!-- <form action="myform" method="post">
+		<label for="condidion">Condition</label>
+		<br>
+		<input type="radio" name="fee" value="1000">Fee = 1000
+		<br>
+		<input type="radio" name="fee" value="not1000">Fee != 1000
+		<br>
+		<input type="submit" value="submit">
+	</form> -->
+
+	<form action="/create_post/" method="post" id="post-form">
+		{% csrf_token %}
+		{{ form.as_ul }}
+		<input type="submit" value="OK">
+	</form>
+	<div id="death" class="test"></div>
+	<p></p>
+	<div id="injured" class="test"></div>
+	<ul id="summary"></ul>
+	<ul id="result"></ul>
+</body>
+	<style>
+		.test {
+			width: 20px;
+			height: 20px;
+			background-color: #ff6600;
+		}
+	</style>
+	<script>
+		$('#death').click(function(){
+			$('input[id="id_injured_condition_0"]').prop("checked", true);
+			var injured_condition = '';
+		    $('input[name="injured_condition"]:checked').each(function(){
+		        injured_condition = $(this).val();
+		        console.log('injured_condition: ' + injured_condition);
+		    });
+		})
+		$('#injured').click(function(){
+			$('input[id="id_injured_condition_1"]').prop("checked", true);
+			var injured_condition = '';
+		    $('input[name="injured_condition"]:checked').each(function(){
+		        injured_condition = $(this).val();
+		        console.log('injured_condition: ' + injured_condition);
+		    });
+		})
+	</script>
+<script src="{% static "scripts/main.js" %}"></script>
+</html>

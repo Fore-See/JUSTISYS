@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ForeSee</title>
+</head>
+<body>
+	{% for ju in j %}
+    <div>
+        <div>
+        	<p>Judge Date: {{ ju.judgedate }}</p>
+        </div>
+        <div>
+        	<p>Court: {{ ju.court }}</p>
+        </div>
+        <div>
+        	<p>Fee: {{ ju.judgefee }}</p>
+        </div>
+        <div>
+        	<p>Total Damage: {{ ju.totaldamage }}</p>
+        </div>
+        
+    </div>
+{% endfor %}
+</body>
+</html>
