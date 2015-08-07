@@ -1,0 +1,48 @@
+.highChart {
+/*	min-width: 100px;
+	max-width: 300px;
+	margin: 0 0;*/
+	/*max-width: 120px;*/
+	height: 250px;
+	display: inline-block;
+	margin: 0 50px;
+	/*border: 1px solid black;*/
+}
+
+#mychart {
+	text-align: center;
+	background-color: #eee;
+	padding: 0 0;
+}
+
+#mytabs {
+	margin: 0 10%;
+	height: 300px;
+}
+
+#verdicts {
+	margin: 0 15%;
+}
+
+#show_summary {
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	height: 315px;
+}
+
+.tab-pane, .modal-body{
+	text-align: center;
+}
+
+.tab-pane span, .modal-body span{
+	display: inline-block;
+	margin: 15px;
+}
+
+.icon_label{
+	width: 85px;
+}
+
+.tab-content {
+	margin-top: 30px;
+}
