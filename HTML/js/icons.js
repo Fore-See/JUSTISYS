@@ -19,6 +19,11 @@ $(document).ready(function(){
     });
 });
 
+$("#chart").click(function() {
+	$('#ChartSec').css({visibility: 'visible'});
+	$('#paper').css({display: 'block'});
+
+});
 
 
 

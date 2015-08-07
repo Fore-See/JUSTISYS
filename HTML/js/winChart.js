@@ -1,5 +1,6 @@
 $("#chart").click(function() {
-    $('#container6').highcharts({
+    // $('#ChartSec').css({visibility: 'visible'});
+        $('#container6').highcharts({
         chart: {
             type: 'pie',
             width: 400,
@@ -9,7 +10,7 @@ $("#chart").click(function() {
             spacingRight: 0
         },
         title: {
-            text: 'Chance of Win or Lose',
+            text: '勝敗機率',
                 style: {
                     fontSize: '20px'}
         },

@@ -9,11 +9,17 @@ $("#chart").click(function() {
             spacingRight: 0
         },
         title: {
-            text: 'World\'s largest cities per 2014'
+            text: '賠償項目',
+            style: {
+                fontSize: '30px',
+                fontFamily: 'Verdana, sans-serif'
+            }
+
+
         },
-        subtitle: {
-            text: 'Source: <a href="http://en.wikipedia.org/wiki/List_of_cities_proper_by_population">Wikipedia</a>'
-        },
+        // subtitle: {
+        //     text: 'Source: <a href="http://en.wikipedia.org/wiki/List_of_cities_proper_by_population">Wikipedia</a>'
+        // },
         xAxis: {
             type: 'category',
             labels: {
@@ -30,7 +36,9 @@ $("#chart").click(function() {
             title: {
                 text: '比例或次數 (millions)',
                 style: {
-                    fontSize: '15px'}
+                    fontSize: '15px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
             }
         },
         legend: {

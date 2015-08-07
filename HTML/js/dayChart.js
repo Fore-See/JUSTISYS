@@ -13,11 +13,11 @@ $("#chart").click(function() {
         },
 
         title: {
-            text: 'Temperature variation by month'
+            text: '歷時統計'
         },
 
         subtitle: {
-            text: 'Observed in Vik i Sogn, Norway'
+            text: '案發日期~判決日期'
         },
 
         xAxis: {
@@ -46,16 +46,16 @@ $("#chart").click(function() {
         },/*end of plotOptions*/
 
         legend: {
-            enabled: true/*關閉圖表的開關*/
+            enabled: false/*關閉圖表的開關*/
         },/*end of legend*/
 
         series: [{
             name: '歷時統計',/*圖表打開或跳出浮框才會看到這個*/
             data: [
-                [255,665],
-                [452, 872],
-                [531, 975],
-                [314, 751]                
+                [13,37030],
+                [13, 36789],
+                [12, 37785],
+                [23, 10831]               
             ]/*end of data*/
         }]/*end of series*/
 

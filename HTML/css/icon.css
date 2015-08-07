@@ -1,4 +1,6 @@
-/*Fiona*/
+
+
+/*Icon change color by Fiona*/
 #Capa_1 {
   pointer-events: fill;
 }
@@ -10,11 +12,30 @@
    background: #09f;
 }
 
+#ChartSec {
+  visibility: hidden;
+  /*display: none;*/ 
+  width: 1400px; 
+  height: 1000px; 
+  position: relative; 
+  padding-top: 0px;
+}
+
+#paper {
+  display: none;
+}
+
+.link{
+  font-family: Microsoft JhengHei; 
+  font-size: 20px; 
+  font-weight: bold;
+}
+
 /*#Capa_1:active {
   background-color: #fe7f00;	
 }
 */
-/*Turtle*/
+/*Icon change color by Turtle*/
 /*#Capa_1 {
   pointer-events: fill;
 }
@@ -38,13 +59,6 @@
   }*/
 
 
-/*#path3635 {
-  pointer-events: fill;
-}
-#path3635:hover {
-  fill: #ffaac4;
-}
-*/
 
 /*#Capa_1{*/
 	

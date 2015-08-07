@@ -13,11 +13,11 @@ $("#chart").click(function() {
         },
 
         title: {
-            text: 'Temperature variation by month'
+            text: '賠償金額範圍'
         },
 
         subtitle: {
-            text: 'Observed in Vik i Sogn, Norway'
+            text: '金額分佈'
         },
 
         xAxis: {
@@ -53,7 +53,7 @@ $("#chart").click(function() {
         },/*end of plotOptions*/
 
         legend: {
-            enabled: true,/*關閉圖表的開關*/
+            enabled: false,/*關閉圖表的開關*/
             itemStyle: {
                 fontSize: '20px',
                 fontFamily: 'Microsoft JhengHei'
@@ -63,11 +63,15 @@ $("#chart").click(function() {
         series: [{
             name: '金額分布',/*圖表打開或跳出浮框才會看到這個*/
             data: [
-                [20000,45000],
-                [57000, 350000],
-                [150000, 975000],
-                [40000, 490000]                
-            ]/*end of data*/
+                [1000,207798],
+                [1063, 6039030],
+                [1000, 98487190],
+                [458, 89313548]               
+            ],/*end of data*/  
+
+            dataLabels: {
+            format: '{point.y:,.0f}'
+            }
 
         }]/*end of series*/
 
