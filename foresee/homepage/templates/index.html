@@ -1,0 +1,1202 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>JUSTISYS</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="{% static "css/main.css" %}">
+
+    <link rel="stylesheet" href="{% static "css/bootstrap.css" %}" type="text/css">
+
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static "font-awesome/css/font-awesome.min.css" %}" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="{% static "css/animate.min.css" %}" type="text/css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static "css/creative.css" %}" type="text/css">
+
+    <!-- My CSS -->
+    <link rel="stylesheet" href="{% static "css/mycustom.css" %}" type="text/css">
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+
+</head>
+
+<body id="page-top">
+
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">JUSTISYS</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll tomytabs" href="#mytabs" data-toggle="tooltip" data-placement="bottom" title="誰提告?">還原現場</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#mychart" data-toggle="tooltip" data-placement="bottom" title="誰提告?">看分析</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#verdicts" data-toggle="tooltip" data-placement="bottom" title="誰提告?">判決書</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1>JUSTISYS</h1>
+                <!-- <hr> -->
+                <br>
+                <p>捍衛權利 不必聲嘶力竭</p>
+                <button id="plaintiff" href="#mytabs" class="custom-btn page-scroll">我想提告</button>
+                <button id="defendant" href="#mytabs" class="custom-btn page-scroll">對方提告</button>
+                <!-- <span>
+                    <input id="plaintiff" type="radio" name="p_d" value="P" />
+                    <label class="icon plaintiff" for="plaintiff"></label>
+                </span>
+                <span>
+                    <input id="defendant" type="radio" name="p_d" value="D" />
+                    <label class="icon defendant" for="defendant"></label>
+                </span> -->
+            </div>
+        </div>
+    </header>
+
+<!--     <section class="bg-primary" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">We've got what you need!</h2>
+                    <hr class="light">
+                    <p class="text-faded">Start Bootstrap has everything you need to get your new website up and running in no time! All of the templates and themes on Start Bootstrap are open source, free to download, and easy to use. No strings attached!</p>
+                    <a href="#" class="btn btn-default btn-xl">Get Started!</a>
+                </div>
+            </div>
+        </div>
+    </section> -->
+    <form class="icon-input tabsection" action="/search_verdict/" method="get" id="search-form">
+        <section id="mytabs">
+            <div>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs nav-justified" role="tablist">
+                    <!-- <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+                    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li> -->
+                    <li class="active">
+                        <a id="tab-1" href="#tabs-mycar" data-toggle="tab" data-placement="top" data-title="必填" data-trigger="hover" class="gray-tooltip">我方</a>
+                    </li>
+                    <li>
+                        <a id="tab-2" href="#tabs-theircar" data-toggle="tab" data-placement="top" data-title="必填" data-trigger="hover" class="gray-tooltip">對方</a>
+                    </li>
+                    <li>
+                        <a id="tab-3" href="#tabs-situation" data-toggle="tab" data-placement="top" data-title="必填" data-trigger="hover" class="gray-tooltip">事故原因</a>
+                    </li>
+                    <li>
+                        <a id="tab-4" href="#tabs-crashtype" data-toggle="tab" >撞擊模式</a>
+                    </li>
+                    <li>
+                        <a id="tab-5" href="#tabs-daypart" data-toggle="tab" >時段</a>
+                    </li>
+                    <li>
+                        <a id="tab-6" href="#tabs-weather" data-toggle="tab" >天氣</a>
+                    </li>
+                    <li>
+                        <a id="tab-7" href="#tabs-roadtype" data-toggle="tab" >肇事路段</a>
+                    </li>
+                    <!-- <li>
+                        <a id="tab-8" href="#tabs-8" data-toggle="tab" >路面狀態</a>
+                    </li> -->
+                    <li>
+                        <a id="tab-9" href="#tabs-injured" data-toggle="tab" >傷亡情況</a>
+                    </li>
+                    <li>
+                        <a id="tab-10" href="#tabs-court" data-toggle="tab" >法院地點</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="tabs-mycar">
+                        <span>
+                            <div class="icon car" data-toggle="modal" data-target="#mycar"></div><div class="icon_label">汽車</div>
+                        </span>
+                        <span>
+                            <div class="icon motorcycle" data-toggle="modal" data-target="#mymotorcycle"></div><div class="icon_label">機車</div>
+                        </span>
+                        <span>
+                            <div class="icon bicycle" data-toggle="modal" data-target="#mybicycle"></div><div class="icon_label">腳踏車</div>
+                        </span>
+                        <span>
+                            <input id="walk1" type="checkbox" name="vehicle_me" value="行人" />
+                            <label class="icon walk" for="walk1"></label><div class="icon_label">行人</div>
+                        </span>
+                        <!-- <span>
+                            <div class="icon others" data-toggle="modal" data-target="#myothers"></div><div class="icon_label">其他</div>
+                        </span> -->
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="tabs-theircar">
+                        <span>
+                            <div class="icon car" data-toggle="modal" data-target="#theircar"></div><div class="icon_label">汽車</div>
+                        </span>
+                        <span>
+                            <div class="icon motorcycle" data-toggle="modal" data-target="#theirmotorcycle"></div><div class="icon_label">機車</div>
+                        </span>
+                        <span>
+                            <div class="icon bicycle" data-toggle="modal" data-target="#theirbicycle"></div><div class="icon_label">腳踏車</div>
+                        </span>
+                        <span>
+                            <input id="walk2" type="checkbox" name="vehicle_them" value="行人" />
+                            <label class="icon walk" for="walk2"></label><div class="icon_label">行人</div>
+                        </span>
+                        <!-- <span>
+                            <div class="icon others" data-toggle="modal" data-target="#theirothers"></div><div class="icon_label">其他</div>
+                        </span> -->
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="tabs-situation">
+                        <span>
+                            <div class="icon driver" data-toggle="modal" data-target="#driver"></div><div class="icon_label">駕駛本身</div>
+                        </span>
+                        <span>
+                            <div class="icon behavior" data-toggle="modal" data-target="#behavior"></div><div class="icon_label">本身行為</div>
+                        </span>
+                        <span>
+                            <div class="icon vehiclecondition" data-toggle="modal" data-target="#vehiclecondition"></div><div class="icon_label">車輛狀況</div>
+                        </span>
+                        <span>
+                            <div class="icon othersituation" data-toggle="modal" data-target="#othersituation"></div><div class="icon_label">其他</div>
+                        </span>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="tabs-crashtype">
+                        <span>
+                            <input id="headcollision" type="radio" name="crash_type" value="對撞" />
+                            <label class="icon headcollision" for="headcollision"></label><div class="icon_label">對撞</div>
+                        </span>
+                        <span>
+                            <input id="scratch" type="radio" name="crash_type" value="擦撞" />
+                            <label class="icon scratch" for="scratch"></label><div class="icon_label">擦撞</div>
+                        </span>
+                        <span>
+                            <input id="pushcollision" type="radio" name="crash_type" value="推撞" />
+                            <label class="icon pushcollision" for="pushcollision"></label><div class="icon_label">推撞</div>
+                        </span>
+                        <span>
+                            <input id="chashcollision" type="radio" name="crash_type" value="追撞" />
+                            <label class="icon chashcollision" for="chashcollision"></label><div class="icon_label">追撞</div>
+                        </span>
+                        <span>
+                            <input id="returncollision" type="radio" name="crash_type" value="倒車撞" />
+                            <label class="icon returncollision" for="returncollision"></label><div class="icon_label">倒車撞</div>
+                        </span>
+                        <span>
+                            <input id="sidecollision" type="radio" name="crash_type" value="側撞" />
+                            <label class="icon sidecollision" for="sidecollision"></label><div class="icon_label">側撞</div>
+                        </span>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="tabs-daypart">
+                        <span>
+                            <input id="daytime" type="radio" name="daypart" value="日間" />
+                            <label class="icon daytime" for="daytime"></label><div class="icon_label">日間</div>
+                        </span>
+                        <span>
+                            <input id="night" type="radio" name="daypart" value="夜間" />
+                            <label class="icon night" for="night"></label><div class="icon_label">夜間</div>
+                        </span>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="tabs-weather">
+                        <span>
+                            <input id="sunny" type="checkbox" name="weather" value="晴" />
+                            <label class="icon sunny" for="sunny"></label><div class="icon_label">晴</div>
+                        </span>
+                        <span>
+                            <input id="raining" type="checkbox" name="weather" value="雨" />
+                            <label class="icon raining" for="raining"></label><div class="icon_label">雨</div>
+                        </span>
+                        <span>
+                            <input id="cloudy" type="checkbox" name="weather" value="陰" />
+                            <label class="icon cloudy" for="cloudy"></label><div class="icon_label">陰</div>
+                        </span>
+                        <span>
+                            <input id="hot" type="checkbox" name="weather" value="高溫" />
+                            <label class="icon hot" for="hot"></label><div class="icon_label">高溫</div>
+                        </span>
+                        <span>
+                            <input id="foggy" type="checkbox" name="weather" value="霧" />
+                            <label class="icon foggy" for="foggy"></label><div class="icon_label">霧</div>
+                        </span>
+                        <span>
+                            <input id="windy" type="checkbox" name="weather" value="強風" />
+                            <label class="icon windy" for="windy"></label><div class="icon_label">強風</div>
+                        </span>
+                        <span>
+                            <input id="dim" type="checkbox" name="weather" value="昏暗" />
+                            <label class="icon dim" for="dim"></label><div class="icon_label">昏暗</div>
+                        </span>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="tabs-roadtype">
+                        <span>
+                            <input id="cityroad" type="radio" name="road_type" value="一般道路" />
+                            <label class="icon cityroad" for="cityroad"></label><div class="icon_label">一般道路</div>
+                        </span>
+                        <span>
+                            <input id="highway" type="radio" name="road_type" value="快速道路" />
+                            <label class="icon highway" for="highway"></label><div class="icon_label">高速公路</div>
+                        </span>
+                    </div>
+                    <!-- <div role="tabpanel" class="tab-pane fade" id="tabs-8">...</div> -->
+                    <div role="tabpanel" class="tab-pane fade" id="tabs-injured">
+                        <span>
+                            <input id="death" type="radio" name="injured_condition" value="死亡" />
+                            <label class="icon death" for="death"></label><div class="icon_label">死亡</div>
+                        </span>
+                        <span>
+                            <input id="injured" type="radio" name="injured_condition" value="沒死亡有受傷" />
+                            <label class="icon injured" for="injured"></label><div class="icon_label">受傷</div>
+                        </span>
+                        <span>
+                            <input id="healthy" type="radio" name="injured_condition" value="未受傷" />
+                            <label class="icon healthy" for="healthy"></label><div class="icon_label">未受傷</div>
+                        </span>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="tabs-court">
+                        <span>
+                            <div class="icon northtw" data-toggle="modal" data-target="#northtw"></div><div class="icon_label"></div>
+                        </span>
+                        <span>
+                            <div class="icon middletw" data-toggle="modal" data-target="#middletw"></div><div class="icon_label"></div>
+                        </span>
+                        <span>
+                            <div class="icon southtw" data-toggle="modal" data-target="#southtw"></div><div class="icon_label"></div>
+                        </span>
+                        <span>
+                            <div class="icon easttw" data-toggle="modal" data-target="#easttw"></div><div class="icon_label"></div>
+                        </span>
+                        <span>
+                            <div class="icon island" data-toggle="modal" data-target="#island"></div><div class="icon_label"></div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <a id="ready" class="readyhide page-scroll" href="#mychart"><h4>已達搜尋條件</h4></a>
+
+        <!-- Modal -->
+        <section>
+            <div id="mycar" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">汽車</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span>
+                                <input id="smallcar1" type="checkbox" name="vehicle_me" value="小客車" />
+                                <label class="icon smallcar" for="smallcar1"></label><div class="icon_label">小客車</div>
+                            </span>
+                            <span>
+                                <input id="jeep1" type="checkbox" name="vehicle_me" value="吉普車" />
+                                <label class="icon jeep" for="jeep1"></label><div class="icon_label">吉普車</div>
+                            </span>
+                            <span>
+                                <input id="bus1" type="checkbox" name="vehicle_me" value="大客車" />
+                                <label class="icon bus" for="bus1"></label><div class="icon_label">大客車</div>
+                            </span>
+                            <span>
+                                <input id="taxi1" type="checkbox" name="vehicle_me" value="營業小客車" />
+                                <label class="icon taxi" for="taxi1"></label><div class="icon_label">營業小客車</div>
+                            </span>
+                            <span>
+                                <input id="truck1" type="checkbox" name="vehicle_me" value="卡車" />
+                                <label class="icon truck" for="truck1"></label><div class="icon_label">卡車</div>
+                            </span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>                
+                    </div>
+                </div>
+            </div>
+            <div id="mymotorcycle" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">機車</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span>
+                                <input id="motor1" type="checkbox" name="vehicle_me" value="重型" />
+                                <label class="icon motor" for="motor1"></label><div class="icon_label">重型</div>
+                            </span>
+                            <span>
+                                <input id="scooter1" type="checkbox" name="vehicle_me" value="輕型" />
+                                <label class="icon scooter" for="scooter1"></label><div class="icon_label">輕型</div>
+                            </span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>                
+                    </div>
+                </div>
+            </div>
+            <div id="mybicycle" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">腳踏車</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span>
+                                <input id="bike1" type="checkbox" name="vehicle_me" value="腳踏車" />
+                                <label class="icon bike" for="bike1"></label><div class="icon_label">腳踏車</div>
+                            </span>
+                            <span>
+                                <input id="tribike1" type="checkbox" name="vehicle_me" value="三輪車" />
+                                <label class="icon tribike" for="tribike1"></label><div class="icon_label">三輪車</div>
+                            </span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>                
+                    </div>
+                </div>
+            </div>
+            <div id="theircar" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">汽車</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span>
+                                <input id="smallcar2" type="checkbox" name="vehicle_them" value="小客車" />
+                                <label class="icon smallcar" for="smallcar2"></label><div class="icon_label">小客車</div>
+                            </span>
+                            <span>
+                                <input id="jeep2" type="checkbox" name="vehicle_them" value="吉普車" />
+                                <label class="icon jeep" for="jeep2"></label><div class="icon_label">吉普車</div>
+                            </span>
+                            <span>
+                                <input id="bus2" type="checkbox" name="vehicle_them" value="大客車" />
+                                <label class="icon bus" for="bus2"></label><div class="icon_label">大客車</div>
+                            </span>
+                            <span>
+                                <input id="taxi2" type="checkbox" name="vehicle_them" value="營業小客車" />
+                                <label class="icon taxi" for="taxi2"></label><div class="icon_label">營業小客車</div>
+                            </span>
+                            <span>
+                                <input id="truck2" type="checkbox" name="vehicle_them" value="卡車" />
+                                <label class="icon truck" for="truck2"></label><div class="icon_label">卡車</div>
+                            </span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>                
+                    </div>
+                </div>
+            </div>
+            <div id="theirmotorcycle" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">機車</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span>
+                                <input id="motor2" type="checkbox" name="vehicle_them" value="重型" />
+                                <label class="icon motor" for="motor2"></label><div class="icon_label">重型</div>
+                            </span>
+                            <span>
+                                <input id="scooter2" type="checkbox" name="vehicle_them" value="輕型" />
+                                <label class="icon scooter" for="scooter2"></label><div class="icon_label">輕型</div>
+                            </span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>                
+                    </div>
+                </div>
+            </div>
+            <div id="theirbicycle" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">腳踏車</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span>
+                                <input id="bike2" type="checkbox" name="vehicle_them" value="腳踏車" />
+                                <label class="icon bike" for="bike2"></label><div class="icon_label">腳踏車</div>
+                            </span>
+                            <span>
+                                <input id="tribike2" type="checkbox" name="vehicle_them" value="三輪車" />
+                                <label class="icon tribike" for="tribike2"></label><div class="icon_label">三輪車</div>
+                            </span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>                
+                    </div>
+                </div>
+            </div>
+            <div id="driver" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">駕駛本身</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span>
+                                <input id="dizzy" type="checkbox" name="judge_situation" value="精神不佳" />
+                                <label class="icon dizzy" for="dizzy"></label><div class="icon_label">精神不佳</div>
+                            </span>
+                            <span>
+                                <input id="aroundsituation" type="checkbox" name="judge_situation" value="忽略周圍狀況" />
+                                <label class="icon aroundsituation" for="aroundsituation"></label><div class="icon_label">忽略周圍狀況</div>
+                            </span>
+                            <span>
+                                <input id="blind" type="checkbox" name="judge_situation" value="視線受阻" />
+                                <label class="icon blind" for="blind"></label><div class="icon_label">視線受阻</div>
+                            </span>
+                            <span>
+                                <input id="helmet" type="checkbox" name="judge_situation" value="沒戴安全帽" />
+                                <label class="icon helmet" for="helmet"></label><div class="icon_label">沒戴安全帽</div>
+                            </span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>                
+                    </div>
+                </div>
+            </div>
+            <div id="behavior" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">本身行為</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span>
+                                <input id="toclose" type="checkbox" name="judge_situation" value="無安全車距" />
+                                <label class="icon toclose" for="toclose"></label><div class="icon_label">無安全車距</div>
+                            </span>
+                            <span>
+                                <input id="tofast" type="checkbox" name="judge_situation" value="未減速" />
+                                <label class="icon tofast" for="tofast"></label><div class="icon_label">未減速</div>
+                            </span>
+                            <span>
+                                <input id="roadright" type="checkbox" name="judge_situation" value="違反路權" />
+                                <label class="icon roadright" for="roadright"></label><div class="icon_label">違反路權</div>
+                            </span>
+                            <span>
+                                <input id="trafficsign" type="checkbox" name="judge_situation" value="違反號誌標線" />
+                                <label class="icon trafficsign" for="trafficsign"></label><div class="icon_label">違反號誌標線</div>
+                            </span>
+                            <span>
+                                <input id="noparking" type="checkbox" name="judge_situation" value="違停" />
+                                <label class="icon noparking" for="noparking"></label><div class="icon_label">違停</div>
+                            </span>
+                            <span>
+                                <input id="crossroad" type="checkbox" name="judge_situation" value="搶道" />
+                                <label class="icon crossroad" for="crossroad"></label><div class="icon_label">搶道</div>
+                            </span>
+                            <span>
+                                <input id="selfcrash" type="checkbox" name="judge_situation" value="自撞" />
+                                <label class="icon selfcrash" for="selfcrash"></label><div class="icon_label">自撞</div>
+                            </span>
+                            <span>
+                                <input id="cardoor" type="checkbox" name="judge_situation" value="開啟車門" />
+                                <label class="icon cardoor" for="cardoor"></label><div class="icon_label">開啟車門</div>
+                            </span>
+                            <span>
+                                <input id="pedestrian" type="checkbox" name="judge_situation" value="行人違規" />
+                                <label class="icon pedestrian" for="pedestrian"></label><div class="icon_label">行人違規</div>
+                            </span>
+                            <span>
+                                <input id="zigzag" type="checkbox" name="judge_situation" value="方向不定" />
+                                <label class="icon zigzag" for="zigzag"></label><div class="icon_label">方向不定</div>
+                            </span>
+                            <span>
+                                <input id="wrongdirection" type="checkbox" name="judge_situation" value="方向不當" />
+                                <label class="icon wrongdirection" for="wrongdirection"></label><div class="icon_label">方向不當</div>
+                            </span>
+                            <span>
+                                <input id="turning" type="checkbox" name="judge_situation" value="違規轉彎" />
+                                <label class="icon turning" for="turning"></label><div class="icon_label">違規轉彎</div>
+                            </span>
+                            <span>
+                                <input id="cellphone" type="checkbox" name="judge_situation" value="使用手機" />
+                                <label class="icon cellphone" for="cellphone"></label><div class="icon_label">使用手機</div>
+                            </span>
+                            <span>
+                                <input id="overloading" type="checkbox" name="judge_situation" value="裝載違規" />
+                                <label class="icon overloading" for="overloading"></label><div class="icon_label">裝載違規</div>
+                            </span>
+                            <span>
+                                <input id="bikeoverload" type="checkbox" name="judge_situation" value="單車雙載" />
+                                <label class="icon bikeoverload" for="bikeoverload"></label><div class="icon_label">單車雙載</div>
+                            </span>
+                            <span>
+                                <input id="emergencystop" type="checkbox" name="judge_situation" value="緊急剎車" />
+                                <label class="icon emergencystop" for="emergencystop"></label><div class="icon_label">緊急剎車</div>
+                            </span>
+                            <span>
+                                <input id="lightoff" type="checkbox" name="judge_situation" value="行駛未開燈帽" />
+                                <label class="icon lightoff" for="lightoff"></label><div class="icon_label">行駛未開燈帽</div>
+                            </span>
+                            <span>
+                                <input id="railcrossing" type="checkbox" name="judge_situation" value="闖越平交道" />
+                                <label class="icon railcrossing" for="railcrossing"></label><div class="icon_label">闖越平交道</div>
+                            </span>
+                            <span>
+                                <input id="roadcrossing" type="checkbox" name="judge_situation" value="穿越道路" />
+                                <label class="icon roadcrossing" for="roadcrossing"></label><div class="icon_label">穿越道路</div>
+                            </span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>                
+                    </div>
+                </div>
+            </div>
+            <div id="vehiclecondition" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">車輛狀況</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span>
+                                <input id="unknowncarcondition" type="checkbox" name="judge_situation" value="車況不良" />
+                                <label class="icon unknowncarcondition" for="unknowncarcondition"></label><div class="icon_label">車況不良</div>
+                            </span>
+                            <span>
+                                <input id="withoutcontrol" type="checkbox" name="judge_situation" value="車輛不受控制" />
+                                <label class="icon withoutcontrol" for="withoutcontrol"></label><div class="icon_label">車輛不受控制</div>
+                            </span>
+                            <span>
+                                <input id="overturned" type="checkbox" name="judge_situation" value="路上翻車" />
+                                <label class="icon overturned" for="overturned"></label><div class="icon_label">路上翻車</div>
+                            </span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>                
+                    </div>
+                </div>
+            </div>
+            <div id="othersituation" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">其他</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span>
+                                <input id="trafficlight" type="checkbox" name="judge_situation" value="號誌異常" />
+                                <label class="icon trafficlight" for="trafficlight"></label><div class="icon_label">號誌異常</div>
+                            </span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>                
+                    </div>
+                </div>
+            </div>
+            <div id="northtw" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">北部</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span>
+                                <input id="KLDV" type="radio" name="court" value="基隆" />
+                                <label class="icon KLDV" for="KLDV"></label>
+                            </span>
+                            <span>
+                                <input id="TPDV" type="radio" name="court" value="臺北" />
+                                <label class="icon TPDV" for="TPDV"></label>
+                            </span>
+                            <span>
+                                <input id="SLDV" type="radio" name="court" value="士林" />
+                                <label class="icon SLDV" for="SLDV"></label>
+                            </span>
+                            <span>
+                                <input id="PCDV" type="radio" name="court" value="新北" />
+                                <label class="icon PCDV" for="PCDV"></label>
+                            </span>
+                            <span>
+                                <input id="TYDV" type="radio" name="court" value="桃園" />
+                                <label class="icon TYDV" for="TYDV"></label>
+                            </span>
+                            <span>
+                                <input id="SCDV" type="radio" name="court" value="新竹" />
+                                <label class="icon SCDV" for="SCDV"></label>
+                            </span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>                
+                    </div>
+                </div>
+            </div>
+            <div id="middletw" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">中部</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span>
+                                <input id="MLDV" type="radio" name="court" value="苗栗" />
+                                <label class="icon MLDV" for="MLDV"></label>
+                            </span>
+                            <span>
+                                <input id="TCDV" type="radio" name="court" value="臺中" />
+                                <label class="icon TCDV" for="TCDV"></label>
+                            </span>
+                            <span>
+                                <input id="CHDV" type="radio" name="court" value="彰化" />
+                                <label class="icon CHDV" for="CHDV"></label>
+                            </span>
+                            <span>
+                                <input id="NTDV" type="radio" name="court" value="南投" />
+                                <label class="icon NTDV" for="NTDV"></label>
+                            </span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>                
+                    </div>
+                </div>
+            </div>
+            <div id="southtw" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">南部</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span>
+                                <input id="ULDV" type="radio" name="court" value="雲林" />
+                                <label class="icon ULDV" for="ULDV"></label>
+                            </span>
+                            <span>
+                                <input id="CYDV" type="radio" name="court" value="嘉義" />
+                                <label class="icon CYDV" for="CYDV"></label>
+                            </span>
+                            <span>
+                                <input id="TNDV" type="radio" name="court" value="臺南" />
+                                <label class="icon TNDV" for="TNDV"></label>
+                            </span>
+                            <span>
+                                <input id="KSDV" type="radio" name="court" value="高雄" />
+                                <label class="icon KSDV" for="KSDV"></label>
+                            </span>
+                            <span>
+                                <input id="PTDV" type="radio" name="court" value="屏東" />
+                                <label class="icon PTDV" for="PTDV"></label>
+                            </span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>             
+                    </div>
+                </div>
+            </div>
+            <div id="easttw" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">東部</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span>
+                                <input id="ILDV" type="radio" name="court" value="宜蘭" />
+                                <label class="icon ILDV" for="ILDV"></label>
+                            </span>
+                            <span>
+                                <input id="HLDV" type="radio" name="court" value="花蓮" />
+                                <label class="icon HLDV" for="HLDV"></label>
+                            </span>
+                            <span>
+                                <input id="TTDV" type="radio" name="court" value="臺東" />
+                                <label class="icon TTDV" for="TTDV"></label>
+                            </span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>                
+                    </div>
+                </div>
+            </div>
+            <div id="island" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">離島</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span>
+                                <input id="PHDV" type="radio" name="court" value="澎湖" />
+                                <label class="icon PHDV" for="PHDV"></label>
+                            </span>
+                            <span>
+                                <input id="KMDV" type="radio" name="court" value="金門" />
+                                <label class="icon KMDV" for="KMDV"></label>
+                            </span>
+                            <span>
+                                <input id="LCDV" type="radio" name="court" value="連江" />
+                                <label class="icon LCDV" for="LCDV"></label>
+                            </span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>                
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- end of Modal -->
+    </form>
+    <section id="mychart" class="resultsection">
+        <!-- <button id="chart" class="btn btn-primary">看分析囉!</button>  -->
+        <!-- Win Chart -->
+        <div id="container" class="highChart winChart"></div> 
+        <!-- ItemChart -->    
+        <div id="container" class="highChart itemsChart"></div> 
+        <!-- MoneyChart -->
+        <div id="container" class="highChart moneyChart"></div> 
+        <!-- DayChart -->
+        <div id="container" class="highChart dayChart"></div> 
+    </section>
+
+    <!-- verdicts list & summary -->
+    <section id="verdicts" class="resultsection">
+        <h2 class="section-heading">歷年判決書</h2>
+        <div class="row">
+            <div id="show_verdicts" class="col-md-6">
+            <table id="show_verdicts_list" class="table table-hover table-condensed">
+                <tr><td>Jill</td></tr>
+                <tr><td>Smith</td></tr>
+                <tr><td>5dsfsdf0</td></tr>
+                <tr><td>50srgsrgrdg</td></tr>
+                <tr><td>50</td></tr>
+                <tr><td>5sergsrg0</td></tr>
+                <tr><td>srgr50</td></tr>
+                <tr><td>5grgrgrg0</td></tr>
+                <tr><td>5rgrgrgeasg0</td></tr>
+                <tr><td>5gserger0</td></tr>
+                <tr><td>5gserger0</td></tr>
+                <tr><td>5gserger0</td></tr>
+            </table>
+            </div>
+            <div id="show_summary" class="col-md-6">
+                <p>點擊判決字號看細節</p>
+            </div>
+        </div>
+        
+    </section>
+<!--     <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">At Your Service</h2>
+                    <hr class="primary">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-diamond wow bounceIn text-primary"></i>
+                        <h3>Sturdy Templates</h3>
+                        <p class="text-muted">Our templates are updated regularly so they don't break.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-paper-plane wow bounceIn text-primary" data-wow-delay=".1s"></i>
+                        <h3>Ready to Ship</h3>
+                        <p class="text-muted">You can use this theme as is, or you can make changes!</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-newspaper-o wow bounceIn text-primary" data-wow-delay=".2s"></i>
+                        <h3>Up to Date</h3>
+                        <p class="text-muted">We update dependencies to keep things fresh.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-heart wow bounceIn text-primary" data-wow-delay=".3s"></i>
+                        <h3>Made with Love</h3>
+                        <p class="text-muted">You have to make your websites with love these days!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+<!--     <section class="no-padding" id="portfolio">
+        <div class="container-fluid">
+            <div class="row no-gutter">
+                <div class="col-lg-4 col-sm-6">
+                    <a href="#" class="portfolio-box">
+                        <img src="img/portfolio/1.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Category
+                                </div>
+                                <div class="project-name">
+                                    Project Name
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="#" class="portfolio-box">
+                        <img src="img/portfolio/2.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Category
+                                </div>
+                                <div class="project-name">
+                                    Project Name
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="#" class="portfolio-box">
+                        <img src="img/portfolio/3.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Category
+                                </div>
+                                <div class="project-name">
+                                    Project Name
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="#" class="portfolio-box">
+                        <img src="img/portfolio/4.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Category
+                                </div>
+                                <div class="project-name">
+                                    Project Name
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="#" class="portfolio-box">
+                        <img src="img/portfolio/5.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Category
+                                </div>
+                                <div class="project-name">
+                                    Project Name
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="#" class="portfolio-box">
+                        <img src="img/portfolio/6.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Category
+                                </div>
+                                <div class="project-name">
+                                    Project Name
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+<!--     <aside class="bg-dark">
+        <div class="container text-center">
+            <div class="call-to-action">
+                <h2>Free Download at Start Bootstrap!</h2>
+                <a href="#" class="btn btn-default btn-xl wow tada">Download Now!</a>
+            </div>
+        </div>
+    </aside> -->
+
+<!--     <section id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">Let's Get In Touch!</h2>
+                    <hr class="primary">
+                    <p>Ready to start your next project with us? That's great! Give us a call or send us an email and we will get back to you as soon as possible!</p>
+                </div>
+                <div class="col-lg-4 col-lg-offset-2 text-center">
+                    <i class="fa fa-phone fa-3x wow bounceIn"></i>
+                    <p>123-456-6789</p>
+                </div>
+                <div class="col-lg-4 text-center">
+                    <i class="fa fa-envelope-o fa-3x wow bounceIn" data-wow-delay=".1s"></i>
+                    <p><a href="mailto:your-email@your-domain.com">feedback@startbootstrap.com</a></p>
+                </div>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- myJS -->
+    <script src="{% static "js/main.js" %}"></script>
+
+    <!-- jQuery -->
+    <script src="{% static "js/jquery.js" %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{% static "js/jquery.easing.min.js" %}"></script>
+    <script src="{% static "js/jquery.fittext.js" %}"></script>
+    <script src="{% static "js/wow.min.js" %}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{% static "js/creative.js" %}"></script>
+
+    <!-- High Chart Script -->
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="http://code.highcharts.com/highcharts-more.js"></script>
+    <script src="{% static "js/winChart.js" %}"></script>
+    <script src="{% static "js/itemsChart.js" %}"></script>
+    <script src="{% static "js/moneyChart.js" %}"></script>
+    <script src="{% static "js/dayChart.js" %}"></script> 
+
+
+</body>
+    <style>
+        /* icon/input mapping */
+        .icon-input input{
+            margin:0;padding:0;
+            -webkit-appearance:none;
+               -moz-appearance:none;
+                    appearance:none;
+        }
+        /* edit svg src here */
+        .car{background-image:url({% static "svg_icon/Cars/car.svg" %});}
+        .motorcycle{background-image:url({% static "svg_icon/Cars/motorcycle.svg" %});}
+        .bicycle{background-image:url({% static "svg_icon/Cars/bicycle.svg" %});}
+        .walk{background-image:url({% static "svg_icon/Cars/walk.svg" %});}
+        .smallcar{background-image:url({% static "svg_icon/Cars/little.svg" %});}
+        .jeep{background-image:url({% static "svg_icon/Cars/jeep.svg" %});}
+        .bus{background-image:url({% static "svg_icon/Cars/bus.svg" %});}
+        .taxi{background-image:url({% static "svg_icon/Cars/taxi.svg" %});}
+        .truck{background-image:url({% static "svg_icon/Cars/truck.svg" %});}
+        .motor{background-image:url({% static "svg_icon/Cars/Big motorbike.svg" %});}
+        .scooter{background-image:url({% static "svg_icon/Cars/light moto.svg" %});}
+        .bike{background-image:url({% static "svg_icon/Cars/bicycle.svg" %});}
+        .tribike{background-image:url({% static "svg_icon/Cars/Three Wheels.svg" %});}
+
+        .driver{background-image:url({% static "svg_icon/driver.svg" %});}
+        .behavior{background-image:url({% static "svg_icon/transportation.svg" %});}
+        .vehiclecondition{background-image:url({% static "svg_icon/car condition.svg" %});}
+        .othersituation{background-image:url({% static "svg_icon/Other.svg" %});}
+
+        .dizzy{background-image:url({% static "svg_icon/zzz.svg" %});}
+        .aroundsituation{background-image:url({% static "svg_icon/Ignore.svg" %});}
+        .blind{background-image:url({% static "svg_icon/poor vision.svg" %});}
+        .helmet{background-image:url({% static "svg_icon/no helmet.svg" %});}
+
+        .toclose{background-image:url({% static "svg_icon/accident.svg" %});}
+        .tofast{background-image:url({% static "svg_icon/rocket.svg" %});}
+        .roadright{background-image:url({% static "svg_icon/Against road rights.svg" %});}
+        .trafficsign{background-image:url({% static "svg_icon/against roadlines.svg" %});}
+        .noparking{background-image:url({% static "svg_icon/noparking_edited.svg" %});}
+        .crossroad{background-image:url({% static "svg_icon/car stacked.svg" %});}
+        .selfcrash{background-image:url({% static "svg_icon/cars hit self.svg" %});}
+        .cardoor{background-image:url({% static "svg_icon/cardoor_edit.svg" %});}
+        .pedestrian{background-image:url({% static "svg_icon/pedstrian.svg" %});}
+        .zigzag{background-image:url({% static "svg_icon/unknown direction.svg" %});}
+        .wrongdirection{background-image:url({% static "svg_icon/wrong direction.svg" %});}
+        .turning{background-image:url({% static "svg_icon/noturning_edited.svg" %});}
+        .cellphone{background-image:url({% static "svg_icon/cellphone_edited.svg" %});}
+        .overloading{background-image:url({% static "svg_icon/overloading.svg" %});}
+        .bikeoverload{background-image:url({% static "svg_icon/bike load people.svg" %});}
+        .emergencystop{background-image:url({% static "svg_icon/sudden break.svg" %});}
+        .lightoff{background-image:url({% static "svg_icon/no light.svg" %});}
+        .railcrossing{background-image:url({% static "svg_icon/railroad crossing.svg" %});}
+        .roadcrossing{background-image:url({% static "svg_icon/crosswalk.svg" %});}
+
+        .unknowncarcondition{background-image:url({% static "svg_icon/poor car condition.svg" %});}
+        .withoutcontrol{background-image:url({% static "svg_icon/wrong direction.svg" %});}
+        .overturned{background-image:url({% static "svg_icon/overturned.svg" %});}
+
+        .trafficlight{background-image:url({% static "svg_icon/traffic light unclear.svg" %});}
+
+        .headcollision{background-image:url({% static "svg_icon/head_crash_edit02.svg" %});}
+        .scratch{background-image:url({% static "svg_icon/scratch.svg" %});}
+        .pushcollision{background-image:url({% static "svg_icon/push crash.svg" %});}
+        .chashcollision{background-image:url({% static "svg_icon/chase crash.svg" %});}
+        .returncollision{background-image:url({% static "svg_icon/backcar crash.svg" %});}
+        .sidecollision{background-image:url({% static "svg_icon/side crash.svg" %});}
+
+        .sunny{background-image:url({% static "svg_icon/sunny.svg" %});}
+        .raining{background-image:url({% static "svg_icon/rain.svg" %});}
+        .cloudy{background-image:url({% static "svg_icon/cloudy.svg" %});}
+        .hot{background-image:url({% static "svg_icon/hot temp.svg" %});}
+        .foggy{background-image:url({% static "svg_icon/mist.svg" %});}
+        .windy{background-image:url({% static "svg_icon/strong wind.svg" %});}
+        .dim{background-image:url({% static "svg_icon/darkness.svg" %});}
+        .daytime{background-image:url({% static "svg_icon/day time.svg" %});}
+        .night{background-image:url({% static "svg_icon/night.svg" %});}
+
+        .cityroad{background-image:url({% static "svg_icon/city22.svg" %});}
+        .highway{background-image:url({% static "svg_icon/road41.svg" %});}
+
+        .death{background-image:url({% static "svg_icon/die.svg" %});}
+        .injured{background-image:url({% static "svg_icon/arm injury.svg" %});}
+        .healthy{background-image:url({% static "svg_icon/no injury.svg" %});}
+
+        .northtw{background-image:url({% static "svg_icon/icon_dvlocation/courtLocNorth.svg" %});}
+        .middletw{background-image:url({% static "svg_icon/icon_dvlocation/courtLocMiddle.svg" %});}
+        .southtw{background-image:url({% static "svg_icon/icon_dvlocation/courtLocSouth.svg" %});}
+        .easttw{background-image:url({% static "svg_icon/icon_dvlocation/courtLocEast.svg" %});}
+        .island{background-image:url({% static "svg_icon/icon_dvlocation/courtLoclslands.svg" %});}
+        .KLDV{background-image:url({% static "svg_icon/icon_21dv/courtKLDV.svg" %});}
+        .TPDV{background-image:url({% static "svg_icon/icon_21dv/courtTPDV.svg" %});}
+        .SLDV{background-image:url({% static "svg_icon/icon_21dv/courtSLDV.svg" %});}
+        .PCDV{background-image:url({% static "svg_icon/icon_21dv/courtPCDV.svg" %});}
+        .TYDV{background-image:url({% static "svg_icon/icon_21dv/courtTYDV.svg" %});}
+        .SCDV{background-image:url({% static "svg_icon/icon_21dv/courtSCDV.svg" %});}
+        .MLDV{background-image:url({% static "svg_icon/icon_21dv/courtMLDV.svg" %});}
+        .TCDV{background-image:url({% static "svg_icon/icon_21dv/courtTCDV.svg" %});}
+        .CHDV{background-image:url({% static "svg_icon/icon_21dv/courtCHDV.svg" %});}
+        .NTDV{background-image:url({% static "svg_icon/icon_21dv/courtNTDV.svg" %});}
+        .ULDV{background-image:url({% static "svg_icon/icon_21dv/courtULDV.svg" %});}
+        .CYDV{background-image:url({% static "svg_icon/icon_21dv/courtCYDV.svg" %});}
+        .TNDV{background-image:url({% static "svg_icon/icon_21dv/courtTNDV.svg" %});}
+        .KSDV{background-image:url({% static "svg_icon/icon_21dv/courtKSDV.svg" %});}
+        .PTDV{background-image:url({% static "svg_icon/icon_21dv/courtPTDV.svg" %});}
+        .ILDV{background-image:url({% static "svg_icon/icon_21dv/courtILDV.svg" %});}
+        .HLDV{background-image:url({% static "svg_icon/icon_21dv/courtHLDV.svg" %});}
+        .TTDV{background-image:url({% static "svg_icon/icon_21dv/courtTTDV.svg" %});}
+        .PHDV{background-image:url({% static "svg_icon/icon_21dv/courtPHDV.svg" %});}
+        .KMDV{background-image:url({% static "svg_icon/icon_21dv/courtKMDV.svg" %});}
+        .LCDV{background-image:url({% static "svg_icon/icon_21dv/courtLCDV.svg" %});}
+
+
+
+
+
+        .icon-input input:active +.icon{opacity: .9;}
+        .icon-input input:checked +.icon{
+            -webkit-filter: none;
+               -moz-filter: none;
+                    filter: none;
+        }
+
+        .icon{
+            cursor:pointer;
+            background-size:contain;
+            background-repeat:no-repeat;
+            display:inline-block;
+            width:85px;height:85px;
+            -webkit-transition: all 100ms ease-in;
+               -moz-transition: all 100ms ease-in;
+                    transition: all 100ms ease-in;
+            -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
+               -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
+                    filter: brightness(1.8) grayscale(1) opacity(.7);
+        }
+
+        .icon:hover{
+            -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9) blur(2px);
+               -moz-filter: brightness(1.2) grayscale(.5) opacity(.9) blur(2px);
+                    filter: brightness(1.2) grayscale(.5) opacity(.9) blur(2px);
+        }
+
+        /* Extras */
+        /*a:visited{color:#888}
+        a{color:#444;text-decoration:none;}
+        p{margin-bottom:.3em;}*/
+    </style> 
+</html>

@@ -5,8 +5,8 @@ console.log("nothing")
 
 });
 
-// Submit post on submit
-$('#post-form').on('submit', function(event){
+// Submit searxh on submit
+$('#search-form').on('submit', function(event){
     event.preventDefault();
     console.log("form submitted!")  // sanity check
     create_post();

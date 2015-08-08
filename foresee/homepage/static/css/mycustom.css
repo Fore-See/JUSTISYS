@@ -1,0 +1,158 @@
+.highChart {
+/*	min-width: 100px;
+	max-width: 300px;
+	margin: 0 0;*/
+	/*max-width: 120px;*/
+	height: 250px;
+	display: inline-block;
+	margin: 0 50px;
+	/*border: 1px solid black;*/
+}
+
+#mychart {
+	text-align: center;
+	background-color: #eee;
+	padding: 0 0;
+}
+
+#mytabs {
+	margin: 0 10%;
+	height: 500px;
+}
+
+#verdicts {
+	margin: 0 20%;
+}
+
+#show_verdicts {
+	padding: 10px 20px;
+	height: 405px;
+	overflow: auto;
+}
+
+#show_summary {
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	height: 405px;
+	padding: 10px 20px;
+}
+
+#show_summary li:last-child {
+	text-align: right;
+	list-style-type: none;
+}
+
+.tab-pane, .modal-body{
+	text-align: center;
+}
+
+.tab-pane span, .modal-body span{
+	display: inline-block;
+	margin: 15px;
+}
+
+.icon_label{
+	width: 85px;
+}
+
+.tab-content {
+	margin-top: 150px;
+}
+
+.resultsection {
+	display: none;
+}
+
+.tabsection {
+	display: none;
+}
+
+.gray-tooltip + .tooltip > .tooltip-inner {
+	background-color: #eee;
+	color: #ff6600;
+	opacity: .6;
+}
+
+.gray-tooltip + .tooltip > .tooltip-arrow {
+	border-top-color:#eee;
+	color: #ff6600;
+	opacity: .6;
+}
+
+.readyhide {
+	display: none;
+}
+
+#ready {
+    text-decoration: none;
+}
+
+.readytogo {
+	text-align: center;
+
+    -webkit-animation-name: blinker;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: 2;
+    
+    -moz-animation-name: blinker;
+    -moz-animation-duration: 1s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: 2;
+    
+    animation-name: blinker;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: 2;
+}
+
+@-moz-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+.custom-btn {
+	font-size: 14px;
+}
+
+.custom-btn {
+    font-size: 16px;
+    border: 2px solid #FFF;
+    padding: 10px;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    outline: none;
+    background-color: transparent;
+}
+
+.custom-btn:hover {
+    text-decoration: none;
+    background-color: #ff6600;
+    color: #fff;
+    border: 2px solid #ff6600;
+    opacity: .5;
+    outline: none;
+}
+
+.custom-btn-hover {
+    text-decoration: none;
+    background-color: #ff6600;
+    color: #fff;
+    border: 2px solid #ff6600;
+    opacity: .5;
+    outline: none;
+}

@@ -20,9 +20,10 @@ from homepage import views, forms
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.home, name='home'),
-    url(r'^form/$', views.myform, name='form'),
-    url(r'^result/', views.result, name='result'),
-    url(r'^create_post/$', views.create_post),
-    url(r'^form/show_summary/([0-9]+)$', views.show_summary),
+    # url(r'^form/$', views.myform, name='form'),
+    # url(r'^result/', views.result, name='result'),
+    # url(r'^create_post/$', views.create_post),
+    url(r'^search_verdict/$', views.search_verdict),
+    url(r'^show_summary/([0-9]+)$', views.show_summary),
     url(r'^verdict/([0-9]+)$', views.full_content),
 ]

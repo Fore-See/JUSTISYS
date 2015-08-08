@@ -12,43 +12,40 @@ import time
 
 
 def home(request):
-	form = request.POST['judgefee']
-	if form == '1000':
-		j = Attribute.objects.filter(judgefee = 1000)
-	else:
-		j = Attribute.objects.exclude(judgefee = 1000)
-	return render(request, 'base.html', {'j': j})
+	return render(request, 'index.html')
 
-def myform(request):
-	if request.method == 'POST':
-		form = ConditionForm(request.POST)
-		if form.is_valid():
-			# return render(request, 'result', {'form': form})	
-			return redirect('views.home', f=form.cleaned_data)
-			# return HttpResponse(form.cleaned_data)
-	else:
-		form = ConditionForm()
-	return render(request, 'form.html', {'form': form})	
+# def myform(request):
+# 	if request.method == 'POST':
+# 		form = ConditionForm(request.POST)
+# 		if form.is_valid():
+# 			# return render(request, 'result', {'form': form})	
+# 			return redirect('views.home', f=form.cleaned_data)
+# 			# return HttpResponse(form.cleaned_data)
+# 	else:
+# 		form = ConditionForm()
+# 	return render(request, 'form.html', {'form': form})	
 
-def result(request):
-	form = request.POST['judgefee']
-	return render(request, 'result.html', {'form': form})
+# def result(request):
+# 	form = request.POST['judgefee']
+# 	return render(request, 'result.html', {'form': form})
 
-def create_post(request):
+# def create_post(request):
+def search_verdict(request):
     # if request.method == 'POST':
     ts = time.time()
     # req = request.GET if request.method == 'GET' else request.POST
 
-    judgefee = request.POST.get('judgefee') # test
-    p_d = request.POST.get('p_d') # single
-    court = request.POST.get('court') # single
-    road_type = request.POST.get('road_type') # single
-    injured_condition = request.POST.get('injured_condition') # single
-    vel_me = request.POST.get('vel_me')
-    vel_them = request.POST.get('vel_them')
-    judge_situation = request.POST.get('judge_situation')
-    crash_type = request.POST.get('crash_type')
-    weather = request.POST.get('weather')
+    judgefee = request.GET.get('judgefee') # test
+    p_d = request.GET.get('p_d') # single
+    court = request.GET.get('court') # single
+    road_type = request.GET.get('road_type') # single
+    injured_condition = request.GET.get('injured_condition') # single
+    vel_me = request.GET.get('vel_me')
+    vel_them = request.GET.get('vel_them')
+    judge_situation = request.GET.get('judge_situation')
+    crash_type = request.GET.get('crash_type')
+    weather = request.GET.get('weather')
+    daypart = request.GET.get('daypart')    
 
 
     # P or D
@@ -58,7 +55,8 @@ def create_post(request):
     print 'them :'+them
     # single value(court, road_type, injured_condition)
     single_idset = set([])
-    single_queryset = Attribute.objects.filter(Q(location = court), Q(highway = road_type), Q(injured = injured_condition))
+    # single_queryset = Attribute.objects.filter(Q(location = court), Q(highway = road_type), Q(injured = injured_condition))
+    single_queryset = Attribute.objects.filter(Q(location = court), Q(highway = road_type), Q(injured = injured_condition) ,Q(time = daypart))
     for i in single_queryset:
     	single_idset.add(i.judg_num)
     print len(single_idset)
@@ -148,21 +146,35 @@ def create_post(request):
     	queryset = Attribute.objects.filter(judgefee = 1000).values()[:100]
     else:
     	queryset = Attribute.objects.exclude(judgefee = 1000).values()[:100]
-
+    ls = []
+    for i in queryset:
+        ls.append(i['judg_num'])
+    items = Damageitem.objects.filter(judg_num__in = ls).values('item')
     print judgefee, p_d, vel_me, vel_them, court, judge_situation, crash_type, weather, road_type, injured_condition
-    return JsonResponse(dict(Attribute=list(queryset)))
+    return JsonResponse(dict(Attribute=list(queryset), Ditems=list(items)))
     print ts - time.time()
     # return JsonResponse(serializers.serialize('json', queryset))
     # else:
     # return JsonResponse({"nothing to see": "this isn't happening"})
 
+# def show_summary(request, num):
+#     # judg_num = request.GET.get('judg_num') # test
+# 	# print type(int(num))
+# 	queryset = Attribute.objects.filter(judg_num = int(num)).values()
+# 	# print num, queryset
+# 	# return JsonResponse(queryset, safe=False)
+#     # damageitems = Damageitem.objects.filter(judg_num = int(num)).values()
+#     # print damageitems
+#     # lawyers = Lawyer.objects.filter(judg_num = int(num)).values()
+# 	return JsonResponse(dict(Verdict=list(queryset)))
+
 def show_summary(request, num):
-    # judg_num = request.GET.get('judg_num') # test
-	# print type(int(num))
-	queryset = Attribute.objects.filter(judg_num = int(num)).values()
-	# print num, queryset
-	# return JsonResponse(queryset, safe=False)
-	return JsonResponse(dict(Verdict=list(queryset)))
+    judgenum = int(num)
+    queryset = Attribute.objects.filter(judg_num = judgenum).values()
+    damageitems = Damageitem.objects.filter(judg_num = judgenum).values('item')
+    lawyers_p = Lawyer.objects.filter(judg_num = judgenum, pord= 'P').values('lawyer')
+    lawyers_d = Lawyer.objects.filter(judg_num = judgenum, pord= 'D').values('lawyer')
+    return JsonResponse(dict(Verdict=list(queryset), Item=list(damageitems), LawyerP=list(lawyers_p), LawyerD=list(lawyers_d)))
 
 def full_content(request, num):
 	queryset = Attribute.objects.filter(judg_num = int(num)).values()
