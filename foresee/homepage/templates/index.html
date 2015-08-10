@@ -833,6 +833,7 @@
     <!-- verdicts list & summary -->
     <section id="verdicts" class="resultsection">
         <h2 class="section-heading">歷年判決書</h2>
+        <p id="result_num"></p>
         <div class="row">
             <div id="show_verdicts" class="col-md-6">
             <table id="show_verdicts_list" class="table table-hover table-condensed">
@@ -1053,14 +1054,7 @@
 
 
 </body>
-    <style>
-        /* icon/input mapping */
-        .icon-input input{
-            margin:0;padding:0;
-            -webkit-appearance:none;
-               -moz-appearance:none;
-                    appearance:none;
-        }
+    <style>      
         /* edit svg src here */
         .car{background-image:url({% static "svg_icon/Cars/car.svg" %});}
         .motorcycle{background-image:url({% static "svg_icon/Cars/motorcycle.svg" %});}
@@ -1161,42 +1155,6 @@
         .TTDV{background-image:url({% static "svg_icon/icon_21dv/courtTTDV.svg" %});}
         .PHDV{background-image:url({% static "svg_icon/icon_21dv/courtPHDV.svg" %});}
         .KMDV{background-image:url({% static "svg_icon/icon_21dv/courtKMDV.svg" %});}
-        .LCDV{background-image:url({% static "svg_icon/icon_21dv/courtLCDV.svg" %});}
-
-
-
-
-
-        .icon-input input:active +.icon{opacity: .9;}
-        .icon-input input:checked +.icon{
-            -webkit-filter: none;
-               -moz-filter: none;
-                    filter: none;
-        }
-
-        .icon{
-            cursor:pointer;
-            background-size:contain;
-            background-repeat:no-repeat;
-            display:inline-block;
-            width:85px;height:85px;
-            -webkit-transition: all 100ms ease-in;
-               -moz-transition: all 100ms ease-in;
-                    transition: all 100ms ease-in;
-            -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
-               -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
-                    filter: brightness(1.8) grayscale(1) opacity(.7);
-        }
-
-        .icon:hover{
-            -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9) blur(2px);
-               -moz-filter: brightness(1.2) grayscale(.5) opacity(.9) blur(2px);
-                    filter: brightness(1.2) grayscale(.5) opacity(.9) blur(2px);
-        }
-
-        /* Extras */
-        /*a:visited{color:#888}
-        a{color:#444;text-decoration:none;}
-        p{margin-bottom:.3em;}*/
+        .LCDV{background-image:url({% static "svg_icon/icon_21dv/courtLCDV.svg" %});}       
     </style> 
 </html>

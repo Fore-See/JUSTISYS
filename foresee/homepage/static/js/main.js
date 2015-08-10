@@ -1,6 +1,9 @@
 $(function() {
 // nothing
 console.log("nothing")
+// search_verdict();
+// show_result();
+// console.log('shortcut testing');
 });
 
 $(document).ready(function(){
@@ -40,31 +43,47 @@ $('#defendant').click(function(){
 //     search_verdict();
 // });
 
-var win_lose = {'win': 0, 'lose': 0};
-var win_lose_doc = {'win': 0, 'lose': 0};
-var win_lose_d = {'win': 0, 'lose': 0};
-var damageitemcount = {'維修費' : 0,
-                       '拖車費': 0,
-                       '交通費': 0,
-                       '精神慰撫金': 0,
-                       '醫療費': 0,
-                       '勞動能力損失': 0,
-                       '看護費': 0,
-                       '薪資補償費': 0,
-                       '後續調養費': 0,
-                       '財產損失': 0,
-                       '生活費用': 0,
-                       '撫養費': 0,
-                       '殯葬費': 0,
-                       '撫恤金': 0,
-                       '膳食費': 0,
-                       '剩餘殘值': 0};
+// Initialize variables for chart
+var win_lose = {
+    'ni_nl_nd': [0, 0],
+    'wi_nl_nd': [0, 0],
+    'ni_wl_nd': [0, 0],
+    'ni_nl_wd': [0, 0],
+    'wi_wl_nd': [0, 0],
+    'wi_nl_wd': [0, 0],
+    'ni_wl_wd': [0, 0],
+    'wi_wl_wd': [0, 0],
+};
+var damageitemcount = {
+    '維修費' : 0, '拖車費': 0, '交通費': 0, '精神慰撫金': 0, '醫療費': 0, 
+    '勞動能力損失': 0, '看護費': 0, '薪資補償費': 0, '後續調養費': 0, 
+    '財產損失': 0, '生活費用': 0, '撫養費': 0, '殯葬費': 0, '撫恤金': 0, 
+    '膳食費': 0, '剩餘殘值': 0
+};
 var chartitem = [];
 var damagelist = {'小額':[], '簡易':[], '普通':[], '保險':[]};
 var daylist = {'小額':[], '簡易':[], '普通':[], '保險':[]};
 var damagerange = {'小額':[], '簡易':[], '普通':[], '保險':[]};
 var dayrange = {'小額':[], '簡易':[], '普通':[], '保險':[]};
 
+// Reset value for chart
+function reset() {
+    win_lose = {
+        'ni_nl_nd': [0, 0], 'wi_nl_nd': [0, 0], 'ni_wl_nd': [0, 0], 'ni_nl_wd': [0, 0], 
+        'wi_wl_nd': [0, 0], 'wi_nl_wd': [0, 0], 'ni_wl_wd': [0, 0], 'wi_wl_wd': [0, 0],
+    };
+    damageitemcount = {
+        '維修費' : 0, '拖車費': 0, '交通費': 0, '精神慰撫金': 0, '醫療費': 0, 
+        '勞動能力損失': 0, '看護費': 0, '薪資補償費': 0, '後續調養費': 0, 
+        '財產損失': 0, '生活費用': 0, '撫養費': 0, '殯葬費': 0, '撫恤金': 0, 
+        '膳食費': 0, '剩餘殘值': 0
+    };
+    chartitem = [];
+    damagelist = {'小額':[], '簡易':[], '普通':[], '保險':[]};
+    daylist = {'小額':[], '簡易':[], '普通':[], '保險':[]};
+    damagerange = {'小額':[], '簡易':[], '普通':[], '保險':[]};
+    dayrange = {'小額':[], '簡易':[], '普通':[], '保險':[]};
+};
 
 // Click on P or D, display tab section
 $('#plaintiff, #defendant').click(function(){
@@ -253,9 +272,7 @@ function show_summary(num) {
 
 // AJAX for searching
 function search_verdict() {
-    win_lose = {'win': 0, 'lose': 0};
-    win_lose_doc = {'win': 0, 'lose': 0};
-    win_lose_d = {'win': 0, 'lose': 0};
+    reset();
     console.log("search verdict is working!"); // sanity check
     $.ajax({
         url : "/search_verdict/", // the endpoint
@@ -279,20 +296,40 @@ function search_verdict() {
             $("#show_verdicts_list").html("");
             for (var i = json['Attribute'].length - 1; i >= json['Attribute'].length - 100; i--) {
                 // json['Attribute'][i]
+                $('#result_num').html("共 "+json['Attribute'].length+1+" 筆判決");
                 $("#show_verdicts_list").prepend("<tr><td name="+json['Attribute'][i].judg_num+">"+json['Attribute'][i].judgeid+"</td></tr>");
                 // $("#result").prepend("<li><a href='#' name="+json['Attribute'][i].judg_num+"><span>"+json['Attribute'][i].judgeid+"</span></a></li>");
                 // $("#result").prepend("<li name="+json['Attribute'][i].judg_num+"><span>"+json['Attribute'][i].judgeid+"</span></li>");
                 // $("#result").prepend("<li><strong>"+json['Attribute'][i].judgeid+"</strong> - <em> "+json['Attribute'][i].judgefee+"</em> - <span> "+json['Attribute'][i].total_damage+"</span></li>");
                 // $("#result").prepend("<p>"+json['Attribute'][i].judgefee+"</p>")
                 // console.log(json['Attribute'][i].judgeresult+', '+json['Attribute'][i].inverstigation+', '+json['Attribute'][i].d_assertion);
-                if (json['Attribute'][i].judgeresult == 'win') {win_lose['win']++;}
-                else {win_lose['lose']++;};
 
-                if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].inverstigation == 'True') {win_lose_doc['win']++;}
-                else{win_lose_doc['lose']++;};
+                // if (json['Attribute'][i].judgeresult == 'win') {win_lose['win']++;}
+                // else {win_lose['lose']++;};
 
-                if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].d_assertion == ' True') {win_lose_d['win']++;}
-                else{win_lose_d['lose']++;};
+                // if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].inverstigation == 'True') {win_lose_doc['win']++;}
+                // else{win_lose_doc['lose']++;};
+
+                // if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].d_assertion == ' True') {win_lose_d['win']++;}
+                // else{win_lose_d['lose']++;};
+
+                if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].inverstigation == 'False' && json['Attribute'][i].p_assertion == 'False' && json['Attribute'][i].d_assertion == ' False')
+                    { win_lose['ni_nl_nd'][0]++; } else { win_lose['ni_nl_nd'][1]++; };
+                if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].inverstigation == 'True' && json['Attribute'][i].p_assertion == 'False' && json['Attribute'][i].d_assertion == ' False')
+                    { win_lose['wi_nl_nd'][0]++; } else { win_lose['wi_nl_nd'][1]++; };
+                if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].inverstigation == 'False' && json['Attribute'][i].p_assertion == 'True' && json['Attribute'][i].d_assertion == ' False')
+                    { win_lose['ni_wl_nd'][0]++; } else { win_lose['ni_wl_nd'][1]++; };
+                if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].inverstigation == 'False' && json['Attribute'][i].p_assertion == 'False' && json['Attribute'][i].d_assertion == ' True')
+                    { win_lose['ni_nl_wd'][0]++; } else { win_lose['ni_nl_wd'][1]++; };
+                if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].inverstigation == 'True' && json['Attribute'][i].p_assertion == 'True' && json['Attribute'][i].d_assertion == ' False')
+                    { win_lose['wi_wl_nd'][0]++; } else { win_lose['wi_wl_nd'][1]++; };
+                if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].inverstigation == 'True' && json['Attribute'][i].p_assertion == 'False' && json['Attribute'][i].d_assertion == ' True')
+                    { win_lose['wi_nl_wd'][0]++; } else { win_lose['wi_nl_wd'][1]++; };
+                if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].inverstigation == 'False' && json['Attribute'][i].p_assertion == 'True' && json['Attribute'][i].d_assertion == ' True')
+                    { win_lose['ni_wl_wd'][0]++; } else { win_lose['ni_wl_wd'][1]++; };
+                if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].inverstigation == 'True' && json['Attribute'][i].p_assertion == 'True' && json['Attribute'][i].d_assertion == ' True')
+                    { win_lose['wi_wl_wd'][0]++; } else { win_lose['wi_wl_wd'][1]++; };
+
 
                 if (json['Attribute'][i].judgeid.search('保') != -1) {
                     damagelist['保險'].push(json['Attribute'][i].total_damage);
@@ -308,7 +345,10 @@ function search_verdict() {
                     daylist['簡易'].push(json['Attribute'][i].judg_num);
                 };
 
+                console.log(json['Attribute'][i].p_assertion);
             };
+            console.log(win_lose);
+            show_summary(json['Attribute'][0].judg_num);
             
             for (var j in json['Ditems']) { damageitemcount[json['Ditems'][j].item]++; };
             chartitem = Object.keys(damageitemcount).map(function (key) {return [key, damageitemcount[key]]});

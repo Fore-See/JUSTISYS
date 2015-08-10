@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.core import serializers
 from django.db.models import Q
 from operator import __or__ as OR
+from operator import __and__ as AND
 import time
 
 

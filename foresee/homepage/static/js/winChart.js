@@ -31,7 +31,7 @@ function show_win_chart() {
         },
 
         series: [{
-            data: [win_lose['win'], win_lose['lose']],
+            data: [win_lose['wi_wl_wd'][0], win_lose['wi_wl_wd'][1]],
             dataLabels: {
                 format: '{y}'/*'{point.y}'*/
             },

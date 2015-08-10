@@ -1,3 +1,4 @@
+{% load staticfiles %}
 .highChart {
 /*	min-width: 100px;
 	max-width: 300px;
@@ -87,6 +88,12 @@
     text-decoration: none;
 }
 
+/*#ready::after {
+	content: url({% static "svg_icon/arrow483.svg" %});
+	text-align: center;
+    display: block;
+}*/
+
 .readytogo {
 	text-align: center;
 
@@ -156,3 +163,54 @@
     opacity: .5;
     outline: none;
 }
+
+.section-heading, #result_num {
+	text-align: center;
+}
+
+.section-heading {
+	margin-top: 20px;
+}
+
+#verdicts {
+	padding: 0px;
+}
+
+.icon-input input{
+    margin:0;padding:0;
+    -webkit-appearance:none;
+       -moz-appearance:none;
+            appearance:none;
+}
+
+.icon-input input:active +.icon{opacity: .9;}
+.icon-input input:checked +.icon{
+    -webkit-filter: none;
+       -moz-filter: none;
+            filter: none;
+}
+
+.icon{
+    cursor:pointer;
+    background-size:contain;
+    background-repeat:no-repeat;
+    display:inline-block;
+    width:85px;height:85px;
+    -webkit-transition: all 100ms ease-in;
+       -moz-transition: all 100ms ease-in;
+            transition: all 100ms ease-in;
+    -webkit-filter: brightness(1.8) grayscale(1) opacity(.5);
+       -moz-filter: brightness(1.8) grayscale(1) opacity(.5);
+            filter: brightness(1.8) grayscale(1) opacity(.5);
+}
+
+.icon:hover{
+    -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9) blur(2px);
+       -moz-filter: brightness(1.2) grayscale(.5) opacity(.9) blur(2px);
+            filter: brightness(1.2) grayscale(.5) opacity(.9) blur(2px);
+}
+
+/* Extras */
+/*a:visited{color:#888}
+a{color:#444;text-decoration:none;}
+p{margin-bottom:.3em;}*/
