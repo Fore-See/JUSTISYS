@@ -7,7 +7,7 @@ console.log("nothing")
 });
 
 $(document).ready(function(){
-    $('[data-toggle="tab"]').tooltip();
+    $('[data-toggle="tab"]').tooltip('show');
     $('[data-toggle="tooltip"]').tooltip();
 });
 $(document).click(function(){
