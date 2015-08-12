@@ -7,7 +7,20 @@
 <body>
 	<!-- <p>Hello</p> -->
 	{% for i in Verdict %}
-	<p>{{ i.location }}</p>
+	<pre>{{ i.content }}</pre>
 	{% endfor %}
+	<style>
+		pre {
+		    width: 50%;
+		    max-width: 50%;
+		    margin: 0 auto;
+		    font-size: 16px;
+		    padding: 20px 0px 20px 50px;
+		    background-color: #eee;
+		}
+		body {
+			background-color: #ddd;
+		}
+	</style>
 </body>
 </html>

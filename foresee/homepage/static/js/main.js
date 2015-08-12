@@ -1,15 +1,23 @@
 $(function() {
-// nothing
-console.log("nothing")
-// search_verdict();
-// show_result();
-// console.log('shortcut testing');
+    // nothing
+    console.log("nothing")
+    // search_verdict();
+    // show_result();
+    // show_win_chart();
+    // show_item_chart();
+    // show_moneytime_chart();
+    // console.log('shortcut testing');
 });
 
 $(document).ready(function(){
     $('[data-toggle="tab"]').tooltip('show');
     $('[data-toggle="tooltip"]').tooltip();
 });
+
+$('#requirement').click(function(e){
+    $('[data-toggle="tab"]').tooltip('show');
+});
+
 $(document).click(function(){
     if ($('#search-form').hasClass('tabsection')){$('[data-toggle="tooltip"]').tooltip();
     } else if ($('#mychart, #verdicts').hasClass('resultsection')) {
@@ -61,10 +69,12 @@ var damageitemcount = {
     '膳食費': 0, '剩餘殘值': 0
 };
 var chartitem = [];
-var damagelist = {'小額':[], '簡易':[], '普通':[], '保險':[]};
-var daylist = {'小額':[], '簡易':[], '普通':[], '保險':[]};
-var damagerange = {'小額':[], '簡易':[], '普通':[], '保險':[]};
-var dayrange = {'小額':[], '簡易':[], '普通':[], '保險':[]};
+// var damagelist = {'小額':[], '簡易':[], '普通':[], '保險':[]};
+// var daylist = {'小額':[], '簡易':[], '普通':[], '保險':[]};
+// var damagerange = {'小額':[], '簡易':[], '普通':[], '保險':[]};
+// var dayrange = {'小額':[], '簡易':[], '普通':[], '保險':[]};
+var moneytime = {'小額':[], '簡易':[], '普通':[], '保險':[]};
+var verdictnums = 0;
 
 // Reset value for chart
 function reset() {
@@ -79,10 +89,12 @@ function reset() {
         '膳食費': 0, '剩餘殘值': 0
     };
     chartitem = [];
-    damagelist = {'小額':[], '簡易':[], '普通':[], '保險':[]};
-    daylist = {'小額':[], '簡易':[], '普通':[], '保險':[]};
-    damagerange = {'小額':[], '簡易':[], '普通':[], '保險':[]};
-    dayrange = {'小額':[], '簡易':[], '普通':[], '保險':[]};
+    // damagelist = {'小額':[], '簡易':[], '普通':[], '保險':[]};
+    // daylist = {'小額':[], '簡易':[], '普通':[], '保險':[]};
+    // damagerange = {'小額':[], '簡易':[], '普通':[], '保險':[]};
+    // dayrange = {'小額':[], '簡易':[], '普通':[], '保險':[]};
+    moneytime = {'小額':[], '簡易':[], '普通':[], '保險':[]};
+    verdictnums = 0;
 };
 
 // Click on P or D, display tab section
@@ -248,10 +260,10 @@ function show_summary(num) {
             lawyerD = ((lawyerD.length == 0) ? ['無'] : lawyerD);
             $("#show_summary").html("\
                                 <li>案由: "+json['Verdict'][0].judgereason+"</li>\
-                                <li>原告勝敗訴: "+json['Verdict'][0].judgeresult+"</li>\
+                                <li>原告勝敗訴: "+json['Verdict'][0].win_lose+"</li>\
                                 <li>裁判日期: "+json['Verdict'][0].judg_date+"</li>\
                                 <li>事故日期: "+json['Verdict'][0].acc_date+"</li>\
-                                <li>歷時: </li>\
+                                <li>歷時: "+json['Verdict'][0].duration+" 天</li>\
                                 <li>判賠金額: "+json['Verdict'][0].total_damage+"</li>\
                                 <li>求償項目: "+items+"</li>\
                                 <li>是否有鑑定文件: "+json['Verdict'][0].inverstigation+"</li>\
@@ -264,7 +276,7 @@ function show_summary(num) {
                                 <li>被告訴訟費用: "+json['Verdict'][0].dfee+"</li>\
                                 <li>被告主張: "+json['Verdict'][0].d_assertion+"</li>\
                                 <li>被告律師: "+lawyerD+"</li>\
-                                <li><a href='/verdict/"+num+"' target='_blank' name='full_content'>完整判決"+num+"</a></li>")
+                                <li><a href='/verdict/"+num+"' target='_blank' name='full_content'>完整判決</a></li>")
         }
     });
 };
@@ -292,11 +304,13 @@ function search_verdict() {
 
         // handle a successful response
         success : function(json){
+            verdictnums = json['Attribute'].length;
             console.log(json['Attribute'].length); // log the returned json to the console
             $("#show_verdicts_list").html("");
-            for (var i = json['Attribute'].length - 1; i >= json['Attribute'].length - 100; i--) {
+            for (var i = json['Attribute'].length - 1; i >= 0; i--) {
+            // for each ( var i in json['Attribute'] ) {
                 // json['Attribute'][i]
-                $('#result_num').html("共 "+json['Attribute'].length+1+" 筆判決");
+                $('#result_num').html("共 "+json['Attribute'].length+" 筆判決");
                 $("#show_verdicts_list").prepend("<tr><td name="+json['Attribute'][i].judg_num+">"+json['Attribute'][i].judgeid+"</td></tr>");
                 // $("#result").prepend("<li><a href='#' name="+json['Attribute'][i].judg_num+"><span>"+json['Attribute'][i].judgeid+"</span></a></li>");
                 // $("#result").prepend("<li name="+json['Attribute'][i].judg_num+"><span>"+json['Attribute'][i].judgeid+"</span></li>");
@@ -313,39 +327,41 @@ function search_verdict() {
                 // if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].d_assertion == ' True') {win_lose_d['win']++;}
                 // else{win_lose_d['lose']++;};
 
-                if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].inverstigation == 'False' && json['Attribute'][i].p_assertion == 'False' && json['Attribute'][i].d_assertion == ' False')
+                if (json['Attribute'][i].win_lose == 'win' && json['Attribute'][i].inverstigation == 'False' && json['Attribute'][i].plawyer == 0 && json['Attribute'][i].d_assertion == ' False')
                     { win_lose['ni_nl_nd'][0]++; } else { win_lose['ni_nl_nd'][1]++; };
-                if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].inverstigation == 'True' && json['Attribute'][i].p_assertion == 'False' && json['Attribute'][i].d_assertion == ' False')
+                if (json['Attribute'][i].win_lose == 'win' && json['Attribute'][i].inverstigation == 'True' && json['Attribute'][i].plawyer == 0 && json['Attribute'][i].d_assertion == ' False')
                     { win_lose['wi_nl_nd'][0]++; } else { win_lose['wi_nl_nd'][1]++; };
-                if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].inverstigation == 'False' && json['Attribute'][i].p_assertion == 'True' && json['Attribute'][i].d_assertion == ' False')
+                if (json['Attribute'][i].win_lose == 'win' && json['Attribute'][i].inverstigation == 'False' && json['Attribute'][i].plawyer == 1 && json['Attribute'][i].d_assertion == ' False')
                     { win_lose['ni_wl_nd'][0]++; } else { win_lose['ni_wl_nd'][1]++; };
-                if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].inverstigation == 'False' && json['Attribute'][i].p_assertion == 'False' && json['Attribute'][i].d_assertion == ' True')
+                if (json['Attribute'][i].win_lose == 'win' && json['Attribute'][i].inverstigation == 'False' && json['Attribute'][i].plawyer == 0 && json['Attribute'][i].d_assertion == ' True')
                     { win_lose['ni_nl_wd'][0]++; } else { win_lose['ni_nl_wd'][1]++; };
-                if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].inverstigation == 'True' && json['Attribute'][i].p_assertion == 'True' && json['Attribute'][i].d_assertion == ' False')
+                if (json['Attribute'][i].win_lose == 'win' && json['Attribute'][i].inverstigation == 'True' && json['Attribute'][i].plawyer == 1 && json['Attribute'][i].d_assertion == ' False')
                     { win_lose['wi_wl_nd'][0]++; } else { win_lose['wi_wl_nd'][1]++; };
-                if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].inverstigation == 'True' && json['Attribute'][i].p_assertion == 'False' && json['Attribute'][i].d_assertion == ' True')
+                if (json['Attribute'][i].win_lose == 'win' && json['Attribute'][i].inverstigation == 'True' && json['Attribute'][i].plawyer == 0 && json['Attribute'][i].d_assertion == ' True')
                     { win_lose['wi_nl_wd'][0]++; } else { win_lose['wi_nl_wd'][1]++; };
-                if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].inverstigation == 'False' && json['Attribute'][i].p_assertion == 'True' && json['Attribute'][i].d_assertion == ' True')
+                if (json['Attribute'][i].win_lose == 'win' && json['Attribute'][i].inverstigation == 'False' && json['Attribute'][i].plawyer == 1 && json['Attribute'][i].d_assertion == ' True')
                     { win_lose['ni_wl_wd'][0]++; } else { win_lose['ni_wl_wd'][1]++; };
-                if (json['Attribute'][i].judgeresult == 'win' && json['Attribute'][i].inverstigation == 'True' && json['Attribute'][i].p_assertion == 'True' && json['Attribute'][i].d_assertion == ' True')
+                if (json['Attribute'][i].win_lose == 'win' && json['Attribute'][i].inverstigation == 'True' && json['Attribute'][i].plawyer == 1 && json['Attribute'][i].d_assertion == ' True')
                     { win_lose['wi_wl_wd'][0]++; } else { win_lose['wi_wl_wd'][1]++; };
 
 
                 if (json['Attribute'][i].judgeid.search('保') != -1) {
-                    damagelist['保險'].push(json['Attribute'][i].total_damage);
-                    daylist['保險'].push(json['Attribute'][i].judg_num);
+                    // damagelist['保險'].push(json['Attribute'][i].total_damage);
+                    // daylist['保險'].push(json['Attribute'][i].duration);
+                    moneytime['保險'].push([json['Attribute'][i].duration], json['Attribute'][i].total_damage);
                 } else if (json['Attribute'][i].total_damage > 500000) {
-                    damagelist['普通'].push(json['Attribute'][i].total_damage);
-                    daylist['普通'].push(json['Attribute'][i].judg_num);
+                    // damagelist['普通'].push(json['Attribute'][i].total_damage);
+                    // daylist['普通'].push(json['Attribute'][i].duration);
+                    moneytime['普通'].push([json['Attribute'][i].duration, json['Attribute'][i].total_damage]);
                 } else if (json['Attribute'][i].total_damage < 100000) {
-                    damagelist['小額'].push(json['Attribute'][i].total_damage);
-                    daylist['小額'].push(json['Attribute'][i].judg_num);
+                    // damagelist['小額'].push(json['Attribute'][i].total_damage);
+                    // daylist['小額'].push(json['Attribute'][i].duration);
+                    moneytime['小額'].push([json['Attribute'][i].duration, json['Attribute'][i].total_damage]);
                 } else {
-                    damagelist['簡易'].push(json['Attribute'][i].total_damage);
-                    daylist['簡易'].push(json['Attribute'][i].judg_num);
+                    // damagelist['簡易'].push(json['Attribute'][i].total_damage);
+                    // daylist['簡易'].push(json['Attribute'][i].duration);
+                    moneytime['簡易'].push([json['Attribute'][i].duration, json['Attribute'][i].total_damage]);
                 };
-
-                console.log(json['Attribute'][i].p_assertion);
             };
             console.log(win_lose);
             show_summary(json['Attribute'][0].judg_num);
@@ -358,11 +374,11 @@ function search_verdict() {
             // damagerange['小額'] = (damagelist['小額'].length != 0) ? [Math.min.apply(null,damagelist['小額']), Math.max.apply(null,damagelist['小額'])] : [];
             // damagerange['簡易'] = (damagelist['簡易'].length != 0) ? [Math.min.apply(null,damagelist['簡易']), Math.max.apply(null,damagelist['簡易'])] : [];
 
-            for (var d in Object.keys(damagerange)) {
-                var term = Object.keys(damagerange)[d];
-                damagerange[term] = (damagelist[term].length != 0) ? [Math.min.apply(null,damagelist[term]), Math.max.apply(null,damagelist[term])] : [];
-                dayrange[term] = (daylist[term].length != 0) ? [Math.min.apply(null,daylist[term]), Math.max.apply(null,daylist[term])] : [];
-            };
+            // for (var d in Object.keys(damagerange)) {
+            //     var term = Object.keys(damagerange)[d];
+            //     damagerange[term] = (damagelist[term].length != 0) ? [Math.min.apply(null,damagelist[term]), Math.max.apply(null,damagelist[term])] : [];
+            //     dayrange[term] = (daylist[term].length != 0) ? [Math.min.apply(null,daylist[term]), Math.max.apply(null,daylist[term])] : [];
+            // };
             console.log("success"); // another sanity check
 
             // data prepared for chart
@@ -378,8 +394,9 @@ function search_verdict() {
             // console.log(damagerange['普通']);
             show_win_chart();
             show_item_chart();
-            show_money_chart();
-            show_day_chart();
+            show_moneytime_chart();
+            // show_money_chart();
+            // show_day_chart();
             $('#ready h4').addClass('readytogo');
             $('#ready').removeClass('readyhide');
 

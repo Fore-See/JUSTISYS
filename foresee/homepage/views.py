@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Attribute, Vechical, CrashType, Lawyer, Situation, Weather, Damageitem
+from .models import Attribute, Vechical, CrashType, Lawyer, Situation, Weather, Damageitem, FullContent
 from .forms import ConditionForm
 from django.http import JsonResponse
 from django.core import serializers
@@ -31,9 +31,107 @@ def home(request):
 # 	return render(request, 'result.html', {'form': form})
 
 # def create_post(request):
+
+def q_single(court, road_type, injured_condition, daypart):
+    single_Qlist = []
+    single_idset = set([])
+    if (court != ''):
+        single_Qlist.append(Q(location = court))
+    else:
+        print 'no court chosen'
+    if (road_type != ''):
+        single_Qlist.append(Q(highway = road_type))
+    else:
+        print 'no road_type chosen'
+    if (injured_condition != ''):
+        single_Qlist.append(Q(injured = injured_condition))
+    else:
+        print 'no injured_condition chosen'
+    if (daypart != ''):
+        single_Qlist.append(Q(time = daypart))
+    else:
+        print 'no daypart chosen'
+    if (len(single_Qlist) != 0):
+        single_queryset = Attribute.objects.filter(reduce(AND, single_Qlist))
+        for i in single_queryset:
+            single_idset.add(i.judg_num)
+        print 'single_idset', len(single_idset)
+    elif(len(single_Qlist) == 0):
+        print 'single_Qlist', 0
+    return single_idset
+
+def q_vehicle_me(vel_me, me):
+    vel_me_list = vel_me.split(',')
+    vel_me_Qlist = []
+    vel_me_idset = set([])
+    for i in vel_me_list:
+        vel_me_Qlist.append(Q(cartype = i))
+    vel_me_queryset = Vechical.objects.filter(Q(pord = me), reduce(OR, vel_me_Qlist))
+    for i in vel_me_queryset:
+        vel_me_idset.add(i.judg_num)
+    print 'vel_me_idset', len(vel_me_idset)
+    return vel_me_idset
+
+def q_vehicle_them(vel_them, them):
+    vel_them_list = vel_them.split(',')
+    vel_them_Qlist = []
+    vel_them_idset = set([])
+    for i in vel_them_list:
+        vel_them_Qlist.append(Q(cartype = i))
+    vel_them_queryset = Vechical.objects.filter(Q(pord = them), reduce(OR, vel_them_Qlist))
+    for i in vel_them_queryset:
+        vel_them_idset.add(i.judg_num)
+    print 'vel_them_idset', len(vel_them_idset)
+    return vel_them_idset
+
+def q_judge_situation(judge_situation):
+    judge_situation_list = judge_situation.split(',')
+    judge_situation_Qlist = []
+    judge_situation_idset = set([])
+    for i in judge_situation_list:
+        judge_situation_Qlist.append(Q(judgesituation = i))
+    judge_situation_queryset = Situation.objects.filter(reduce(OR, judge_situation_Qlist))
+    for i in judge_situation_queryset:
+        judge_situation_idset.add(i.judg_num)
+    print 'judge_situation_idset', len(judge_situation_idset)
+    return judge_situation_idset
+
+def q_crash_type(crash_type):
+    crash_type_list = crash_type.split(',')
+    crash_type_Qlist = []
+    crash_type_idset = set([])
+    if (crash_type_list[0] != ''):
+        for i in crash_type_list:
+            crash_type_Qlist.append(Q(crash_type = i))
+        crash_type_queryset = CrashType.objects.filter(reduce(OR, crash_type_Qlist))
+        for i in crash_type_queryset:
+            crash_type_idset.add(i.judg_num)
+        # id_set
+        # multi_set = multi_set.intersection(crash_type_idset)
+        print 'crash_type_idset', len(crash_type_idset)
+    else:
+        print 'no crash_type chosen'
+    return crash_type_idset
+
+def q_weather(weather):
+    weather_list = weather.split(',')
+    weather_Qlist = []
+    weather_idset = set([])
+    if (weather_list[0] != ''):
+        for i in weather_list:
+            weather_Qlist.append(Q(weather = i))
+        weather_queryset = Weather.objects.filter(reduce(OR, weather_Qlist))
+        for i in weather_queryset:
+            weather_idset.add(i.judg_num)
+        # id_set
+        # multi_set = multi_set.intersection(weather_idset)
+        print 'weather_idset', len(weather_idset)
+    else:
+        print 'no weather chosen'
+    return weather_idset
+
 def search_verdict(request):
     # if request.method == 'POST':
-    ts = time.time()
     # req = request.GET if request.method == 'GET' else request.POST
 
     judgefee = request.GET.get('judgefee') # test
@@ -48,126 +146,74 @@ def search_verdict(request):
     weather = request.GET.get('weather')
     daypart = request.GET.get('daypart')    
 
-
     # P or D
     me = p_d
     them = 'D' if me == 'P' else 'P'
     print 'me :'+me
     print 'them :'+them
-    # single value(court, road_type, injured_condition)
-    single_idset = set([])
-    # single_queryset = Attribute.objects.filter(Q(location = court), Q(highway = road_type), Q(injured = injured_condition))
-    single_queryset = Attribute.objects.filter(Q(location = court), Q(highway = road_type), Q(injured = injured_condition) ,Q(time = daypart))
-    for i in single_queryset:
-    	single_idset.add(i.judg_num)
-    print len(single_idset)
 
-    # # court
-    # court_idset = set([])
-    # court_quertset = Attribute.objects.filter(location = court)
-    # for i in court_quertset:
-    # 	court_idset.add(i.judgeid)
-    # print len(court_idset)
+    q_id_dic = {
+    'single_idset': q_single(court, road_type, injured_condition, daypart),
+    'vel_me_idset': q_vehicle_me(vel_me, me),
+    'vel_them_idset': q_vehicle_them(vel_them, them),
+    'judge_situation_idset': q_judge_situation(judge_situation),
+    'crash_type_idset': q_crash_type(crash_type),
+    'weather_idset': q_weather(weather)
+    }
 
-    # # road_type
-    # road_type_idset = set([])
-    # road_type_quertset = Attribute.objects.filter(highway = road_type)
-    # for i in road_type_quertset:
-    # 	road_type_idset.add(i.judgeid)
-    # print len(road_type_idset)
-
-    # # injured_condition
-    # injured_condition_idset = set([])
-    # injured_condition_quertset = Attribute.objects.filter(injured = injured_condition)
-    # for i in injured_condition_quertset:
-    # 	injured_condition_idset.add(i.judgeid)
-    # print len(injured_condition_idset)
+    # single value(court, road_type, injured_condition, daypart)
+    # single_idset = q_single(court, road_type, injured_condition, daypart)
+    single_idset = q_id_dic['single_idset']
 
     # vel_me
-    vel_me_list = vel_me.split(',')
-    vel_me_Qlist = []
-    vel_me_idset = set([])
-    for i in vel_me_list:
-    	vel_me_Qlist.append(Q(cartype = i))
-    vel_me_queryset = Vechical.objects.filter(Q(pord = me), reduce(OR, vel_me_Qlist))
-    for i in vel_me_queryset:
-    	vel_me_idset.add(i.judg_num)
-    print len(vel_me_idset)
+    # vel_me_idset = q_vehicle_me(vel_me, me)
+    vel_me_idset = q_id_dic['vel_me_idset']
 
     # vel_them
-    vel_them_list = vel_them.split(',')
-    vel_them_Qlist = []
-    vel_them_idset = set([])
-    for i in vel_them_list:
-    	vel_them_Qlist.append(Q(cartype = i))
-    vel_them_queryset = Vechical.objects.filter(Q(pord = them), reduce(OR, vel_them_Qlist))
-    for i in vel_them_queryset:
-    	vel_them_idset.add(i.judg_num)
-    print len(vel_them_idset)
+    # vel_them_idset = q_vehicle_them(vel_them, them)
+    vel_them_idset = q_id_dic['vel_them_idset']
 
     # judge_situation
-    judge_situation_list = judge_situation.split(',')
-    judge_situation_Qlist = []
-    judge_situation_idset = set([])
-    for i in judge_situation_list:
-    	judge_situation_Qlist.append(Q(judgesituation = i))
-    judge_situation_queryset = Situation.objects.filter(reduce(OR, judge_situation_Qlist))
-    for i in judge_situation_queryset:
-    	judge_situation_idset.add(i.judg_num)
-    print len(judge_situation_idset)
+    # judge_situation_idset = q_judge_situation(judge_situation)
+    judge_situation_idset = q_id_dic['judge_situation_idset']
+
+    # id_set
+    if (len(single_idset) == 0):
+        multi_set = vel_me_idset.intersection(vel_them_idset).intersection(judge_situation_idset)
+    else:
+        multi_set = single_idset.intersection(vel_me_idset).intersection(vel_them_idset).intersection(judge_situation_idset)
 
     # crash_type
-    crash_type_list = crash_type.split(',')
-    crash_type_Qlist = []
-    crash_type_idset = set([])
-    for i in crash_type_list:
-    	crash_type_Qlist.append(Q(crash_type = i))
-    crash_type_queryset = CrashType.objects.filter(reduce(OR, crash_type_Qlist))
-    for i in crash_type_queryset:
-    	crash_type_idset.add(i.judg_num)
-    print len(crash_type_idset)
+    # crash_type_idset = q_crash_type(crash_type)
+    crash_type_idset = q_id_dic['crash_type_idset']
+    if (len(crash_type_idset) != 0):
+        multi_set = multi_set.intersection(crash_type_idset)
 
     # weather
-    weather_list = weather.split(',')
-    weather_Qlist = []
-    weather_idset = set([])
-    for i in weather_list:
-    	weather_Qlist.append(Q(weather = i))
-    weather_queryset = Weather.objects.filter(reduce(OR, weather_Qlist))
-    for i in weather_queryset:
-    	weather_idset.add(i.judg_num)
-    print len(weather_idset)
+    # weather_idset = q_weather(weather)
+    weather_idset = q_id_dic['weather_idset']
+    if (len(weather_idset) != 0):
+        multi_set = multi_set.intersection(weather_idset)
 
-    multi_set = vel_me_idset.intersection(vel_them_idset).intersection(judge_situation_idset).intersection(crash_type_idset).intersection(weather_idset).intersection(single_idset)
-    print len(multi_set), (i for i in multi_set)
+    # TESTING
+    # if judgefee == '1000':
+    #     queryset = Attribute.objects.filter(judgefee = 1000).values()[:77]
+    # else:
+    #     queryset = Attribute.objects.exclude(judgefee = 1000).values()[:77]
+    # ls = []
+    # for i in queryset:
+    #     ls.append(i['judg_num'])
+    # items = Damageitem.objects.filter(judg_num__in = ls).values('item')
 
-    # queryset = Attribute.objects.filter(judg_num__in = list(multi_set)).values()[:100]
-
-    if judgefee == '1000':
-    	queryset = Attribute.objects.filter(judgefee = 1000).values()[:100]
-    else:
-    	queryset = Attribute.objects.exclude(judgefee = 1000).values()[:100]
-    ls = []
-    for i in queryset:
-        ls.append(i['judg_num'])
-    items = Damageitem.objects.filter(judg_num__in = ls).values('item')
+    queryset = Attribute.objects.filter(judg_num__in = list(multi_set)).values()
+    items = Damageitem.objects.filter(judg_num__in = list(multi_set)).values('item')
     print judgefee, p_d, vel_me, vel_them, court, judge_situation, crash_type, weather, road_type, injured_condition
+    print len(multi_set)
     return JsonResponse(dict(Attribute=list(queryset), Ditems=list(items)))
-    print ts - time.time()
     # return JsonResponse(serializers.serialize('json', queryset))
     # else:
     # return JsonResponse({"nothing to see": "this isn't happening"})
 
-# def show_summary(request, num):
-#     # judg_num = request.GET.get('judg_num') # test
-# 	# print type(int(num))
-# 	queryset = Attribute.objects.filter(judg_num = int(num)).values()
-# 	# print num, queryset
-# 	# return JsonResponse(queryset, safe=False)
-#     # damageitems = Damageitem.objects.filter(judg_num = int(num)).values()
-#     # print damageitems
-#     # lawyers = Lawyer.objects.filter(judg_num = int(num)).values()
-# 	return JsonResponse(dict(Verdict=list(queryset)))
 
 def show_summary(request, num):
     judgenum = int(num)
@@ -178,5 +224,5 @@ def show_summary(request, num):
     return JsonResponse(dict(Verdict=list(queryset), Item=list(damageitems), LawyerP=list(lawyers_p), LawyerD=list(lawyers_d)))
 
 def full_content(request, num):
-	queryset = Attribute.objects.filter(judg_num = int(num)).values()
+	queryset = FullContent.objects.filter(judg_num = int(num)).values('content')
 	return render(request, 'verdict.html', dict(Verdict=list(queryset)))

@@ -1,19 +1,77 @@
 {% load staticfiles %}
+
+#container {
+	border: 2px solid #eee;
+	/*padding: 0% 10%;*/
+}
+
 .highChart {
-/*	min-width: 100px;
-	max-width: 300px;
-	margin: 0 0;*/
+	width: 450px;
+	min-width: 320px;
+	max-width: 450px;
+	/*margin: 0 0;*/
 	/*max-width: 120px;*/
-	height: 250px;
-	display: inline-block;
-	margin: 0 50px;
+	/*height: 250px;*/
+	/*display: inline-block;*/
+	/*margin: 0 50px;*/
 	/*border: 1px solid black;*/
+
+}
+
+.chartButton {
+	/*border: 2px solid #eee;*/
+	width: 147px;
+	height: 30px;
+	display: inline-block;
+	background-color: none;
+    /*-webkit-filter: opacity(.5);*/
+	border: 2px solid #eee;
+	border-radius: 5px;
+	color: #000;
+	cursor: pointer;
+}
+
+.chartButton:hover {
+	/*background-color: rgba(255, 102, 0, .5);*/
+	background-color: #eee;
+	/*border: 2px solid #ff6600;*/
+	/*opacity: .5;*/
+}
+
+.chartdiv input {
+	display: none;
+}
+
+.chartdiv input:checked + .chartButton{
+	background-color: #ddd;
+}
+
+.winChart{
+	/*float: right;*/
+	display: inline-block;
+}
+
+.moneytimeChart{
+	/*float: right;*/
+	display: inline-block;
+}
+
+.itemsChart {
+	/*float: left;*/
+	display: inline-block;
+}
+
+.chartdiv {
+	padding-left: 0;
+	padding-right: 0;
+	/*margin: 0 auto;*/
+
 }
 
 #mychart {
 	text-align: center;
-	background-color: #eee;
-	padding: 0 0;
+	background-color: #fff;
+	/*padding: 5px 40px;*/
 }
 
 #mytabs {
@@ -72,12 +130,14 @@
 	background-color: #eee;
 	color: #ff6600;
 	opacity: .6;
+	z-index: 100;
 }
 
 .gray-tooltip + .tooltip > .tooltip-arrow {
 	border-top-color:#eee;
 	color: #ff6600;
 	opacity: .6;
+	z-index: 100;
 }
 
 .readyhide {
@@ -136,7 +196,7 @@
 }
 
 .custom-btn {
-    font-size: 16px;
+    font-size: 20px;
     border: 2px solid #FFF;
     padding: 10px;
     color: #fff;
@@ -148,19 +208,19 @@
 
 .custom-btn:hover {
     text-decoration: none;
-    background-color: #ff6600;
+    background-color: rgba(255, 102, 0, 0.5);
     color: #fff;
-    border: 2px solid #ff6600;
-    opacity: .5;
+    border: 2px solid rgba(255, 102, 0, 0.5);
+    /*opacity: .5;*/
     outline: none;
 }
 
 .custom-btn-hover {
     text-decoration: none;
-    background-color: #ff6600;
+    background-color: rgba(255, 102, 0, 0.5);
     color: #fff;
-    border: 2px solid #ff6600;
-    opacity: .5;
+    border: 2px solid rgba(255, 102, 0, 0.5);
+    /*opacity: .5;*/
     outline: none;
 }
 
@@ -176,6 +236,7 @@
 	padding: 0px;
 }
 
+/* Icon effects */
 .icon-input input{
     margin:0;padding:0;
     -webkit-appearance:none;
@@ -210,6 +271,20 @@
             filter: brightness(1.2) grayscale(.5) opacity(.9) blur(2px);
 }
 
+.tooltip{
+	z-index: 1000 !important;
+	font-size: 16px;
+    font-family: 'Microsoft JhengHei';
+}
+
+#requirement {
+	text-align: center;
+    text-decoration: none;
+}
+
+h1 {
+	font-size: 72px;
+}
 /* Extras */
 /*a:visited{color:#888}
 a{color:#444;text-decoration:none;}

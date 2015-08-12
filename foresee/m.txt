@@ -31,6 +31,10 @@ class Attribute(models.Model):
     injured = models.CharField(max_length=45, blank=True, null=True)
     highway = models.CharField(max_length=45, blank=True, null=True)
     time = models.CharField(max_length=45, blank=True, null=True)
+    win_lose = models.CharField(max_length=15, blank=True, null=True)
+    duration = models.IntegerField(db_column='Duration', blank=True, null=True)  # Field name made lowercase.
+    plawyer = models.IntegerField(db_column='pLawyer', blank=True, null=True)  # Field name made lowercase.
+    dlawyer = models.IntegerField(db_column='dLawyer', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -169,6 +173,16 @@ class DjangoSession(models.Model):
     class Meta:
         managed = False
         db_table = 'django_session'
+
+
+class FullContent(models.Model):
+    judg_num = models.IntegerField(primary_key=True)
+    judgeid = models.CharField(db_column='JudgeID', max_length=45, blank=True, null=True)  # Field name made lowercase.
+    content = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'full_content'
 
 
 class Lawyer(models.Model):

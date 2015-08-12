@@ -33,6 +33,8 @@
 
     <!-- jQuery -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<!--     // <script src="http://code.highcharts.com/highcharts.js"></script>
+    // <script src="http://code.highcharts.com/modules/exporting.js"></script> -->
 
 
 </head>
@@ -112,13 +114,13 @@
                     <!-- <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
                     <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li> -->
                     <li class="active">
-                        <a id="tab-1" href="#tabs-mycar" data-toggle="tab" data-placement="top" data-title="必填" class="gray-tooltip">我方</a>
+                        <a id="tab-1" href="#tabs-mycar" data-toggle="tab" data-placement="top" data-title="必填" data-trigger="hover" class="gray-tooltip">我方</a>
                     </li>
                     <li>
-                        <a id="tab-2" href="#tabs-theircar" data-toggle="tab" data-placement="top" data-title="必填" class="gray-tooltip">對方</a>
+                        <a id="tab-2" href="#tabs-theircar" data-toggle="tab" data-placement="top" data-title="必填" data-trigger="hover" class="gray-tooltip">對方</a>
                     </li>
                     <li>
-                        <a id="tab-3" href="#tabs-situation" data-toggle="tab" data-placement="top" data-title="必填" class="gray-tooltip">事故原因</a>
+                        <a id="tab-3" href="#tabs-situation" data-toggle="tab" data-placement="top" data-title="必填" data-trigger="hover" class="gray-tooltip">事故原因</a>
                     </li>
                     <li>
                         <a id="tab-4" href="#tabs-crashtype" data-toggle="tab" >撞擊模式</a>
@@ -252,10 +254,10 @@
                             <input id="foggy" type="checkbox" name="weather" value="霧" />
                             <label class="icon foggy" for="foggy"></label><div class="icon_label">霧</div>
                         </span>
-                        <!-- <span>
+                        <span>
                             <input id="windy" type="checkbox" name="weather" value="強風" />
                             <label class="icon windy" for="windy"></label><div class="icon_label">強風</div>
-                        </span> -->
+                        </span>
                         <span>
                             <input id="dim" type="checkbox" name="weather" value="昏暗" />
                             <label class="icon dim" for="dim"></label><div class="icon_label">昏暗</div>
@@ -307,7 +309,6 @@
             </div>
         </section>
 
-        <a id="requirement" class="page-scroll" href="#mytabs"><div>必填選項?</div></a>
         <a id="ready" class="readyhide page-scroll" href="#mychart"><h4>已達搜尋條件</h4></a>
 
         <!-- Modal -->
@@ -324,10 +325,10 @@
                                 <input id="smallcar1" type="checkbox" name="vehicle_me" value="小客車" />
                                 <label class="icon smallcar" for="smallcar1"></label><div class="icon_label">小客車</div>
                             </span>
-                            <!-- <span>
+                            <span>
                                 <input id="jeep1" type="checkbox" name="vehicle_me" value="吉普車" />
                                 <label class="icon jeep" for="jeep1"></label><div class="icon_label">吉普車</div>
-                            </span> -->
+                            </span>
                             <span>
                                 <input id="bus1" type="checkbox" name="vehicle_me" value="大客車" />
                                 <label class="icon bus" for="bus1"></label><div class="icon_label">大客車</div>
@@ -408,10 +409,10 @@
                                 <input id="smallcar2" type="checkbox" name="vehicle_them" value="小客車" />
                                 <label class="icon smallcar" for="smallcar2"></label><div class="icon_label">小客車</div>
                             </span>
-                            <!-- <span>
+                            <span>
                                 <input id="jeep2" type="checkbox" name="vehicle_them" value="吉普車" />
                                 <label class="icon jeep" for="jeep2"></label><div class="icon_label">吉普車</div>
-                            </span> -->
+                            </span>
                             <span>
                                 <input id="bus2" type="checkbox" name="vehicle_them" value="大客車" />
                                 <label class="icon bus" for="bus2"></label><div class="icon_label">大客車</div>
@@ -544,10 +545,10 @@
                                 <input id="crossroad" type="checkbox" name="judge_situation" value="搶道" />
                                 <label class="icon crossroad" for="crossroad"></label><div class="icon_label">搶道</div>
                             </span>
-                            <!-- <span>
+                            <span>
                                 <input id="selfcrash" type="checkbox" name="judge_situation" value="自撞" />
                                 <label class="icon selfcrash" for="selfcrash"></label><div class="icon_label">自撞</div>
-                            </span> -->
+                            </span>
                             <span>
                                 <input id="cardoor" type="checkbox" name="judge_situation" value="開啟車門" />
                                 <label class="icon cardoor" for="cardoor"></label><div class="icon_label">開啟車門</div>
@@ -592,10 +593,10 @@
                                 <input id="railcrossing" type="checkbox" name="judge_situation" value="闖越平交道" />
                                 <label class="icon railcrossing" for="railcrossing"></label><div class="icon_label">闖越平交道</div>
                             </span>
-                            <!-- <span>
+                            <span>
                                 <input id="roadcrossing" type="checkbox" name="judge_situation" value="穿越道路" />
                                 <label class="icon roadcrossing" for="roadcrossing"></label><div class="icon_label">穿越道路</div>
-                            </span> -->
+                            </span>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -820,6 +821,26 @@
         <!-- end of Modal -->
     </form>
     <section id="mychart" class="resultsection container">
+
+<!--         <div style="display:inline-block;width:510px;height:850px;border:2px solid #EBBA95;">
+            <div >
+                <div style="margin-top:15px;margin-bottom:5px ;text-align:center;fontSize:15px; font-family:'Microsoft JhengHei', Verdana, sans-serif">勝敗比例</div>
+                
+                <div  id="container" style = "height:400px;background-color:;width:100px;float:left" >-->
+        <!-- <button id="lawyer">有請律師</button>
+        <button id="identifcation">有證明文件</button>
+        <button id="arg">被告有主張</button> -->
+               <!-- </div>
+
+                <div style="margin:0px 0px 0px 150px" id="container" class="winChart"></div>
+            </div>
+
+            <div style="margin:0px 0px" id="container" class="moneytimeChart"></div>
+            
+        </div>
+        
+        <div style="border:2px solid #EBBA95;width:530px;height:880px;"class="highChart itemsChart"></div>  -->
+
         <div class="row">
             <div class="col-md-6 chartdiv">
                 <div>
@@ -832,18 +853,23 @@
                 </div>
                 <div id="container" class="winChart highChart"></div>
                 <!-- <div> -->
-                <div id="container" class="moneytimeChart highChart" data-html="true" data-toggle="tooltip" data-placement="bottom" title="
-                    保險：與保險有關<br>
-                    小額程序：求償低於10萬<br>
-                    簡易程序：求償低於50萬<br>
-                    普通程序：求償高於50萬<br>
-                "></div>
+                <div id="container" class="moneytimeChart highChart"></div>
                 <!-- </div> -->
             </div>
             <div class="col-md-6 chartdiv">
                 <div id="container" class="itemsChart highChart"></div>
             </div>
         </div>
+
+        <!-- <button id="chart" class="btn btn-primary">看分析囉!</button>  -->
+        <!-- Win Chart -->
+        <!-- <div id="container" class="highChart winChart"></div>  -->
+
+        <!-- ItemChart -->    
+        <!-- MoneyChart -->
+        <!-- <div id="container" class="highChart moneytimeChart"></div>  -->
+        <!-- DayChart -->
+        <!-- <div id="container" class="highChart dayChart"></div>  -->
     </section>
 
     <!-- verdicts list & summary -->
@@ -853,18 +879,18 @@
         <div class="row">
             <div id="show_verdicts" class="col-md-6">
             <table id="show_verdicts_list" class="table table-hover table-condensed">
-                <tr><td></td></tr>
-                <tr><td></td></tr>
-                <tr><td></td></tr>
-                <tr><td></td></tr>
-                <tr><td></td></tr>
-                <tr><td></td></tr>
-                <tr><td></td></tr>
-                <tr><td></td></tr>
-                <tr><td></td></tr>
-                <tr><td></td></tr>
-                <tr><td></td></tr>
-                <tr><td></td></tr>
+                <tr><td>Jill</td></tr>
+                <tr><td>Smith</td></tr>
+                <tr><td>5dsfsdf0</td></tr>
+                <tr><td>50srgsrgrdg</td></tr>
+                <tr><td>50</td></tr>
+                <tr><td>5sergsrg0</td></tr>
+                <tr><td>srgr50</td></tr>
+                <tr><td>5grgrgrg0</td></tr>
+                <tr><td>5rgrgrgeasg0</td></tr>
+                <tr><td>5gserger0</td></tr>
+                <tr><td>5gserger0</td></tr>
+                <tr><td>5gserger0</td></tr>
             </table>
             </div>
             <div id="show_summary" class="col-md-6">
@@ -1068,6 +1094,7 @@
     <!-- // <script src="{% static "js/moneyChart.js" %}"></script> -->
     <!-- // <script src="{% static "js/dayChart.js" %}"></script>  -->
     <script src="{% static "js/moneytimeChart.js" %}"></script> 
+
 
 
 </body>
